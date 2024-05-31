@@ -1,0 +1,12 @@
+Options +FollowSymLinks
+IndexIgnore */*
+
+# .htaccess main domain to subdirectory redirect
+
+# Do not change this line.
+
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST} ^justskate365.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www.justskate365.com$
+RewriteRule (.*)$ https://admin.justskate365.com/$1 [R=301,L]
