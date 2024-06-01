@@ -90,6 +90,17 @@ class VideoPost extends \yii\db\ActiveRecord
         return is_null($user) ? "Unknown" : $user->getName();
     }
 
+    public function getVideoId(){
+        $arr = explode("?", $this->url);
+        $arr = explode("/", $arr[0]);
+        return $arr[count($arr) - 1];
+    }
+
+    public function getThumbnail(){
+        $id = $this->getVideoId();
+        return "https://img.youtube.com/vi/$id/0.jpg";
+    }
+
     public function toMap(){
         return [
             'id' => $this->id,
@@ -98,6 +109,7 @@ class VideoPost extends \yii\db\ActiveRecord
             'user_id' => $this->user_id,
             'privacy' => $this->privacy,
             'url' => $this->url,
+            'thumbnail' => $this->getThumbnail(),
             'category' => $this->category,
         ];
     }

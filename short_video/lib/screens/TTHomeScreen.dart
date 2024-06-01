@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:short_video/components/TTStoryComponent.dart';
 import 'package:short_video/components/TTStoryHeaderComponent.dart';
+import 'package:short_video/config/toast_config.dart';
 import 'package:short_video/model/TTModel.dart';
+import 'package:short_video/models/post.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTDataProvider.dart';
+
+import '../business_logic/bloc/post_bloc.dart';
+import '../business_logic/services/network_service_response.dart';
+import '../config/colors_config.dart';
+import '../config/main_config.dart';
+import '../models/screen_error.dart';
+import 'TTErrorSection.dart';
 
 class TTHomeScreen extends StatefulWidget {
   static String tag = '/TTHomeScreen';
@@ -19,13 +29,35 @@ class TTHomeScreen extends StatefulWidget {
 class TTHomeScreenState extends State<TTHomeScreen> {
   var mStoryList = getStoryData();
 
+  PostBloc bloc = PostBloc();
+
+  NetworkServiceResponse? response;
+
+  List<Post> posts = [];
+
   @override
   void initState() {
     super.initState();
     init();
   }
 
-  init() async {}
+  init() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Loader().launch(context);
+    });
+    response = await bloc.actionIndex();
+
+    if (response!.status == Status.Error) {
+      ToastConfig.showToast(
+          title: 'Error', message: response!.message, context: context);
+    } else {
+      posts.addAll(response!.data);
+      setState(() {});
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      finish(context);
+    });
+  }
 
   @override
   void setState(fn) {
@@ -35,14 +67,22 @@ class TTHomeScreenState extends State<TTHomeScreen> {
   @override
   Widget build(BuildContext context) {
     Widget _body() {
-      return PageView.builder(
+      return response != null && (posts.isEmpty)
+          ? ErrorSection(
+          screenError: ScreenError(
+              title: "sorry",
+              message: response != null ? response!.message : "",
+              icon: Icon(
+                Icons.error_outline,
+                size: 48,
+                color: ColorsConfig.p_color,
+              )))
+          :PageView.builder(
           scrollDirection: Axis.vertical,
           itemCount: 20,
           itemBuilder: (context, index) {
-            TTStoryModel data = mStoryList[index % mStoryList.length];
             return TTStoryComponent(
-              model: data,
-              pos: index,
+              model: posts[index],
             );
           });
     }
@@ -53,7 +93,7 @@ class TTHomeScreenState extends State<TTHomeScreen> {
         child: Stack(
           children: <Widget>[
             _body(),
-            TTStoryHeaderComponent(),
+            // TTStoryHeaderComponent(),
           ],
         ),
       ),

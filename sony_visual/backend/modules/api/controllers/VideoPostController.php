@@ -201,9 +201,10 @@ class VideoPostController extends Controller
         $message = "";
         $data = "";
         $status = false;
-        $id = Yii::$app->request->get('id','');
+        $id = Yii::$app->request->get('id',0);
+        $user_id = Yii::$app->request->get('user_id',0);
         try{
-            $model = VideoPost::findOne($id);
+            $model = VideoPost::findOne(['id' => $id, 'user_id' => $user_id]);
             if($model){
                 $model->delete();
                 Yii::$app->response->statusCode = 200;

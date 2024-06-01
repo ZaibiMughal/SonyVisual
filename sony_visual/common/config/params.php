@@ -3,7 +3,7 @@ return [
     'adminEmail' => 'zohaibumar6@gmail.com',
     'supportEmail' => 'zumary48@gmail.com',
     'senderEmail' => 'zumary48@gmail.com',
-    'senderName' => 'SmartIntel',
+    'senderName' => 'SonyVisual',
     'user.passwordResetTokenExpire' => 3600,
     'user.passwordMinLength' => 8,
 //    'bsDependencyEnabled' => false,

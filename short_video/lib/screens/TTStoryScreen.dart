@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:short_video/components/TTStoryComponent.dart';
 import 'package:short_video/components/TTStoryHeaderComponent.dart';
 import 'package:short_video/model/TTModel.dart';
+import 'package:short_video/models/post.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTDataProvider.dart';
 
+import '../utils/TTWidgets.dart';
+
 class TTStoryScreen extends StatefulWidget {
   static String tag = '/TTStoryScreen';
+  final List<Post> posts;
+  const TTStoryScreen({super.key, required this.posts});
 
   @override
   TTStoryScreenState createState() => TTStoryScreenState();
@@ -36,20 +42,30 @@ class TTStoryScreenState extends State<TTStoryScreen> with SingleTickerProviderS
     Widget _body() {
       return PageView.builder(
           scrollDirection: Axis.vertical,
-          itemCount: 20,
+          itemCount: widget.posts.length,
           itemBuilder: (context, index) {
-            TTStoryModel data = mStoryList[index % mStoryList.length];
-            return TTStoryComponent(model: data, pos: index);
+            // TTStoryModel data = mStoryList[index % mStoryList.length];
+
+            return TTStoryComponent(model: widget.posts[index]);
           });
     }
 
     return Scaffold(
       backgroundColor: TTColorBlack,
-      body: Stack(
-        children: <Widget>[
-          _body(),
-          TTStoryHeaderComponent(),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+        
+            _body(),
+            // TTStoryHeaderComponent(),
+            IconButton(
+              onPressed: () {
+                finish(context);
+              },
+              icon: Icon(Icons.arrow_back_ios, color: white),
+            ),
+          ],
+        ),
       ),
     );
   }

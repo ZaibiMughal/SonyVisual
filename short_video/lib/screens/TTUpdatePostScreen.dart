@@ -24,27 +24,27 @@ import '../config/toast_config.dart';
 import '../utils/TTWidgets.dart';
 import 'TTPickSongScreen.dart';
 
-class TTAddPostScreen extends StatefulWidget {
-  static String tag = '/TTAddPostScreen';
+class TTUpdatePostScreen extends StatefulWidget {
+  static String tag = '/TTUpdatePostScreen';
+  final Post post;
+  TTUpdatePostScreen({super.key, required this.post});
 
   @override
-  TTAddPostScreenState createState() => TTAddPostScreenState();
+  TTUpdatePostScreenState createState() => TTUpdatePostScreenState();
 }
 
-class TTAddPostScreenState extends State<TTAddPostScreen> {
+class TTUpdatePostScreenState extends State<TTUpdatePostScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   TextEditingController titleController = TextEditingController();
   TextEditingController videoUrlController = TextEditingController();
   TextEditingController descController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
 
   FocusNode titleFocus = FocusNode();
   FocusNode videoUrlFocus = FocusNode();
   FocusNode passFocus = FocusNode();
   FocusNode descFocus = FocusNode();
 
-  bool passwordVisible = false;
 
   PostBloc bloc = PostBloc();
 
@@ -55,6 +55,9 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
   }
 
   init() async {
+    titleController.text = widget.post.title!;
+    descController.text = widget.post.description!;
+    videoUrlController.text = widget.post.url!;
   }
 
   @override
@@ -68,15 +71,12 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
       formKey.currentState!.save();
 
       Loader().launch(context);
-      NetworkServiceResponse response =  await bloc.actionCreate(NewPost(title: titleController.text, description: descController.text, url: videoUrlController.text, userId: AppState.instance.getUserId()));
+      NetworkServiceResponse response =  await bloc.actionEdit(Post(id: widget.post.id, thumbnail: widget.post.thumbnail, title: titleController.text, description: descController.text, url: videoUrlController.text, userId: widget.post.userId));
       Navigator.pop(context);
       if(response.status ==  Status.Error){
         ToastConfig.showToast(title: 'Error', message: response.message, context: context);
       } else {
-        ToastConfig.showToast(title: 'Success', message: "Video Posted Successfully", context: context, alertType: AlertType.success);
-        titleController.text = "";
-        descController.text = "";
-        videoUrlController.text = "";
+        ToastConfig.showToast(title: 'Success', message: "Video Edited Successfully", context: context, alertType: AlertType.success);
       }
     }
   }
@@ -84,7 +84,7 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ttAppBar(context, "Add Video", showBack: false) as PreferredSizeWidget?,
+      appBar: ttAppBar(context, "Update Video", showBack: true) as PreferredSizeWidget?,
       backgroundColor: black,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -127,6 +127,7 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
                           controller: descController,
                           textStyle: Config.textStyle,
                           textFieldType: TextFieldType.NAME,
+                          focus: passFocus,
                           maxLines: 5,
                           minLines: 5,
                           decoration: Config.inputDecoration(labelText: "Description"),
@@ -145,7 +146,7 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
                               },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                               color: ColorsConfig.p_color,
-                              child: Text('Add Video', style: primaryTextStyle(color: white))),
+                              child: Text('Update Video', style: primaryTextStyle(color: white))),
                         ),
                       ],
                     ).center(),

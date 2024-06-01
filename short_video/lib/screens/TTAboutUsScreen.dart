@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:short_video/business_logic/apis.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTConstant.dart';
 import 'package:short_video/utils/TTWidgets.dart';
+import 'package:short_video/utils/utils.dart';
 
 class TTAboutUsScreen extends StatefulWidget {
   static String tag = '/TTAboutUsScreen';
@@ -40,14 +43,16 @@ class TTAboutUsScreenState extends State<TTAboutUsScreen> {
               Text(TTAppName, style: primaryTextStyle(color: white)),
               16.height,
               Text("For more information please visit:", style: primaryTextStyle(color: white)),
-              Text("coding@${TTAppName.toLowerCase()}@.com", style: primaryTextStyle(color: TTColorSerpent)),
+              Text("admin@${TTAppName.toLowerCase()}.com", style: primaryTextStyle(color: TTColorSerpent)),
               // 16.height,
               // Text("Client ID:", style: primaryTextStyle(color: white)),
               // Text("28375-64f658-452414474099", style: primaryTextStyle(color: white)),
               16.height,
-              Text("Terms of Use", style: primaryTextStyle(color: TTColorSerpent)),
-              16.height,
-              Text("Privacy Policy", style: primaryTextStyle(color: TTColorSerpent)),
+              GestureDetector(
+                onTap: (){
+                  Utils.launchExternalUrl(Uri.parse("https://admin.sonyvisual.com/site/privacy-policy"));
+                },
+                child: Text("Privacy Policy", style: primaryTextStyle(color: TTColorSerpent))),
             ],
           ).paddingAll(10),
         ),

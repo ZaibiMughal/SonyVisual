@@ -3,15 +3,19 @@ import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:short_video/business_logic/bloc/user_bloc.dart';
 import 'package:short_video/config/colors_config.dart';
 import 'package:short_video/config/toast_config.dart';
+import 'package:short_video/models/user.dart';
 import 'package:short_video/screens/TTDashboardScreen.dart';
 import 'package:short_video/screens/TTOTPScreen.dart';
 import 'package:short_video/screens/TTSignUpScreen.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTImages.dart';
 
+import '../business_logic/services/network_service_response.dart';
 import '../config/main_config.dart';
+import '../models/login.dart';
 
 class TTSignINScreen extends StatefulWidget {
   static String tag = '/TTSignINScreen';
@@ -25,6 +29,7 @@ class TTSignINScreenState extends State<TTSignINScreen> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  UserBloc userBloc = UserBloc();
 
   FocusNode passFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
@@ -51,24 +56,17 @@ class TTSignINScreenState extends State<TTSignINScreen> {
 
 
     hideKeyboard(context);
-    // SettingScreen().launch(context);
-    // HomeScreen().launch(context);
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-      TTDashboardScreen().launch(context);
-      // NetworkServiceResponse response =  await AuthService.signInWithEmail(login: Login(email: emailController.text, password: passwordController.text));
-      // LoaderConfig.hideLoader();
-      // if(response.status ==  Status.Error){
-      //   ToastConfig.showToast(message: response.message);
-      // } else {
-      //   if(AppState.instance.user!.userType == UserKeys.admin){
-      //     SettingScreen().launch(context, isNewTask: true);
-      //   } else {
-      //     HomeScreen().launch(context, isNewTask: true);
-      //   }
-      //   ToastConfig.showToast(message: response.message);
-      // }
+      Loader().launch(context);
+      NetworkServiceResponse response =  await userBloc.actionLogin(Login(email: emailController.text, password: passwordController.text));
+      Navigator.pop(context);
+      if(response.status ==  Status.Error){
+        ToastConfig.showToast(title: 'Error', message: response.message, context: context);
+      } else {
+        TTDashboardScreen().launch(context, isNewTask: true);
+      }
     }
   }
 

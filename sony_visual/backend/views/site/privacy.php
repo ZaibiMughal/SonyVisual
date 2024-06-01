@@ -20,20 +20,19 @@
     <br>
     <br>
     <h5>
-        <strong>Effective Date: 20.05.23</strong>
+        <strong>Effective Date: 01.05.24</strong>
 
     </h5>
     <div class="privacy-body">
     <br>
 
-    Just Skate365 respects the privacy of our users and is committed to protecting their personal information. This
-    Privacy Policy outlines how we handle your information when you use our mobile application Just Skate365. By
+    SonyVisual respects the privacy of our users and is committed to protecting their personal information. This
+    Privacy Policy outlines how we handle your information when you use our mobile application Just SonyVisual. By
     accessing and using the App, you acknowledge and agree to the practices described in this Privacy Policy.
     <br>
     <br>
         <h5><strong>Information We Do Not Collect:</strong></h5><br>
-        <strong>1.1 Personal Information:</strong> <br>We do not collect any personal information that you voluntarily provide to us, such as
-    your name, email address, contact information, or any other identifying information.
+        <strong>1.1 Personal Information:</strong> <br>We are only collecting personal information like Name and Email for Authentication and Authorization of users to use our application.
     <br>
     <br>
         <strong>1.2 Device Information:</strong><br> We do not collect any information about your mobile device, including the type of device,
@@ -47,15 +46,15 @@
 
         <strong>Use of Information:</strong>
     <br>
-        <strong>2.1</strong> Since we do not collect any user information, we do not use the information for any purposes.
+        <strong>2.1</strong> We are only collecting personal information like Name and Email for Authentication and Authorization of users to use our application.
     <br>
     <br>
         <strong>Disclosure of Information:</strong><br>
-        <strong>3.1</strong> Since we do not collect any user information, we do not disclose any information to third parties.
+        <strong>3.1</strong> Since we are only collecting user information for login or signup purpose, we do not disclose any information to third parties.
     <br>
     <br>
         <strong>Data Security:</strong><br>
-        <strong>4.1</strong> Although we do not collect any user information, we strive to implement reasonable security measures to protect
+        <strong>4.1</strong> we strive to implement reasonable security measures to protect
     your privacy and ensure the integrity of the App.
     <br>
     <br>
@@ -80,12 +79,12 @@
     <br>
         <strong>Contact Us:</strong><br>
         <strong>8.1</strong> If you have any questions or concerns regarding this Privacy Policy or the privacy practices of the App, please
-    contact us at contactjustskate365@gmail.com
+    contact us at support@sonyvisual.com
     <br>
     Please note that this Privacy Policy does not apply to any third-party apps, websites, or services that may be
     accessed through links in our App. We encourage you to review the privacy policies of those third parties before
     providing any personal information.
     <br>
-    Just Skate365
+    SonyVisual
     </div>
 </div>

@@ -10,7 +10,7 @@ $rules = require_once 'url-rules.php';
 
 return [
     'id' => 'app-backend',
-    'name' => 'SmartIntel',
+    'name' => 'SonyVisual',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],

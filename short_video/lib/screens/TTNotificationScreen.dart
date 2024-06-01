@@ -44,7 +44,7 @@ class TTNotificationScreenState extends State<TTNotificationScreen> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  TTStoryScreen().launch(context);
+                  // TTStoryScreen().launch(context);
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:short_video/business_logic/app_state.dart';
+import 'package:short_video/business_logic/bloc/user_bloc.dart';
 import 'package:short_video/screens/TTChooseLanguageScreen.dart';
 import 'package:short_video/screens/TTDashboardScreen.dart';
 import 'package:short_video/screens/TTFeedbackScreen.dart';
+import 'package:short_video/screens/TTSignInScreen.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTConstant.dart';
 import 'package:short_video/utils/TTWidgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../business_logic/services/network_service_response.dart';
+import '../config/main_config.dart';
+import '../config/toast_config.dart';
 import 'TTAboutUsScreen.dart';
 
 class TTSettingScreen extends StatefulWidget {
@@ -20,6 +26,8 @@ class TTSettingScreen extends StatefulWidget {
 class TTSettingScreenState extends State<TTSettingScreen> {
   bool isSwitched = false;
 
+  UserBloc bloc = UserBloc();
+
   @override
   void initState() {
     super.initState();
@@ -30,21 +38,37 @@ class TTSettingScreenState extends State<TTSettingScreen> {
     //
   }
 
+
   @override
   void setState(fn) {
     if (mounted) super.setState(fn);
   }
 
+  Future<bool> delete() async {
+    hideKeyboard(context);
+    Loader().launch(context);
+    NetworkServiceResponse response =  await bloc.actionDelete();
+    Navigator.pop(context);
+    if(response.status ==  Status.Error){
+      ToastConfig.showToast(title: 'Error', message: response.message, context: context);
+      return false;
+    } else {
+      ToastConfig.showToast(title: 'Success', message: "Account Deleted Successfully", context: context, alertType: AlertType.success);
+      return true;
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    Widget mOption(var icon, var value) {
+    Widget mOption(var icon, var value, {Color color = white}) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            children: [Icon(icon, color: white), 10.width, Text(value, style: primaryTextStyle(color: white))],
+            children: [Icon(icon, color: color), 10.width, Text(value, style: primaryTextStyle(color: color))],
           ),
-          Icon(Icons.chevron_right, color: white),
+          Icon(Icons.chevron_right, color: color),
         ],
       ).paddingAll(16);
     }
@@ -120,7 +144,17 @@ class TTSettingScreenState extends State<TTSettingScreen> {
                 mOption(Icons.logout, "Logout").onTap(() async {
                   bool? res = await showConfirmDialog(context, 'Do you want to logout?');
                   if (res ?? false) {
-                    TTDashboardScreen().launch(context);
+                    AppState.instance.logout();
+                    TTSignINScreen().launch(context, isNewTask: true);
+                  }
+                }),
+                mOption(Icons.delete, "Delete", color: redColor).onTap(() async {
+                  bool? res = await showConfirmDialog(context, 'Do you want to delete this account?');
+                  if (res ?? false) {
+                    bool result = await delete();
+                    if(result) {
+                      TTSignINScreen().launch(context, isNewTask: true);
+                    }
                   }
                 }),
               ],

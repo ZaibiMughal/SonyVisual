@@ -87,15 +87,27 @@ class UserType extends \yii\db\ActiveRecord
     }
 
     public static function isSuperAdmin($id){
-        return $id == self::SUPER_ADMIN_ID;
+        $user = UserType::findOne($id);
+        if($user){
+            return strtolower($user->name) == User::$superAdmin;
+        }
+        return false;
     }
 
     public static function isEmployee($id){
-        return $id == self::EMPLOYEE_ID;
+        $user = UserType::findOne($id);
+        if($user){
+            return strtolower($user->name) == User::$customer;
+        }
+        return false;
     }
 
     public static function isCustomer($id){
-        return $id == self::CUSTOMER_ID;
+        $user = UserType::findOne($id);
+        if($user){
+            return strtolower($user->name) == User::$customer;
+        }
+        return false;
     }
 
 }

@@ -7,6 +7,6 @@ IndexIgnore */*
 
 RewriteEngine on
 
-RewriteCond %{HTTP_HOST} ^justskate365.com$ [OR]
-RewriteCond %{HTTP_HOST} ^www.justskate365.com$
-RewriteRule (.*)$ https://admin.justskate365.com/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^sonyvisual.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www.sonyvisual.com$
+RewriteRule (.*)$ https://admin.sonyvisual.com/$1 [R=301,L]

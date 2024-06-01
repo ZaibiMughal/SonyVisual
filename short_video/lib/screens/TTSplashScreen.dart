@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:short_video/business_logic/app_state.dart';
 import 'package:short_video/screens/TTSignInScreen.dart';
+import 'package:short_video/storage/shared_storage.dart';
 import 'package:short_video/utils/TTConstant.dart';
 import 'package:short_video/utils/TTImages.dart';
 
@@ -37,8 +39,12 @@ class TTSplashScreenState extends State<TTSplashScreen> with AfterLayoutMixin<TT
     // bool _seen = (prefs.getBool('seen') ?? false);
 
     await Future.delayed(Duration(seconds: 2));
-    finish(context);
-    TTSignINScreen().launch(context);
+    
+    if(AppState.instance.getIsLoggedIn() == false) {
+      TTSignINScreen().launch(context, isNewTask: true);
+    } else {
+      TTDashboardScreen().launch(context, isNewTask: true);
+    }
 
     //
     // if (_seen) {

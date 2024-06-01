@@ -24,7 +24,7 @@ class TTDashboardScreenState extends State<TTDashboardScreen> {
     TTSearchScreen(),
     TTHomeScreen(),
     TTAddPostScreen(),
-    TTProfileScreen(isUser: true),
+    TTProfileScreen(),
     // TTNotificationScreen(),
     TTHomeScreen(autoload: true,),
   ];

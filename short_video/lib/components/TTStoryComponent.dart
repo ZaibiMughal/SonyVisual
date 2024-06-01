@@ -3,11 +3,14 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:short_video/business_logic/app_state.dart';
 import 'package:short_video/model/TTModel.dart';
+import 'package:short_video/models/post.dart';
 import 'package:short_video/screens/TTProfileScreen.dart';
 import 'package:short_video/screens/TTSoundScreen.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTWidgets.dart';
+import 'package:short_video/utils/utils.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -17,11 +20,10 @@ class TTStoryComponent extends StatefulWidget {
   @override
   TTStoryComponentState createState() => TTStoryComponentState();
 
-  TTStoryModel? model;
+  // TTStoryModel? model;
+  final Post model;
 
-  TTStoryComponent({TTStoryModel? model, int? pos}) {
-    this.model = model;
-  }
+  TTStoryComponent({super.key, required this.model});
 }
 
 class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerProviderStateMixin {
@@ -45,7 +47,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
     super.initState();
 
     _controller = YoutubePlayerController(
-      initialVideoId: "vkpSYKpWlQM",
+      initialVideoId: Utils.getIdFromUrl(widget.model.url!),
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -114,7 +116,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
           children: <Widget>[
             Text("By: ${widget.model!.title}", style: primaryTextStyle(color: white)),
             8.height,
-            Text(widget.model!.description + " " + widget.model!.category, style: primaryTextStyle(color: white)),
+            Text(widget.model!.description!.substring(0, widget.model.description!.length > 15 ? 15 : widget.model.description!.length), style: primaryTextStyle(color: white)),
             // 8.height,
             // Container(
             //   width: context.width() - 60,
@@ -190,7 +192,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
                 width: 45,
                 height: 45,
                 padding: EdgeInsets.all(8),
-                child: CircleAvatar(radius: 16, backgroundImage: AssetImage(widget.model!.thumbnail)),
+                child: CircleAvatar(radius: 16, backgroundImage: NetworkImage(AppState.instance.user!.url!)),
               ).onTap(() {
                 if (_controller.value.isPlaying) _controller.pause();
                 TTSoundScreen().launch(context);

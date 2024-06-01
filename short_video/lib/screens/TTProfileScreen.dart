@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:short_video/business_logic/app_state.dart';
 import 'package:short_video/components/TTProfileComponent.dart';
 import 'package:short_video/screens/TTEditProfileScreen.dart';
 import 'package:short_video/screens/TTFollowingListScreen.dart';
@@ -8,15 +9,18 @@ import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTImages.dart';
 import 'package:short_video/utils/TTWidgets.dart';
 
+import '../business_logic/bloc/post_bloc.dart';
+import '../business_logic/services/network_service_response.dart';
+import '../config/colors_config.dart';
+import '../config/main_config.dart';
+import '../config/toast_config.dart';
+import '../models/post.dart';
+import '../models/screen_error.dart';
+import 'TTErrorSection.dart';
 import 'TTFanListScreen.dart';
 
 class TTProfileScreen extends StatefulWidget {
   static String tag = '/TTProfileScreen';
-  bool? isUser;
-
-  TTProfileScreen({bool? isUser}) {
-    this.isUser = isUser;
-  }
 
   @override
   TTProfileScreenState createState() => TTProfileScreenState();
@@ -24,6 +28,10 @@ class TTProfileScreen extends StatefulWidget {
 
 class TTProfileScreenState extends State<TTProfileScreen> {
   var isSelected = false;
+  PostBloc bloc = PostBloc();
+  NetworkServiceResponse? response;
+
+  List<Post> posts = [];
 
   @override
   void initState() {
@@ -31,11 +39,28 @@ class TTProfileScreenState extends State<TTProfileScreen> {
     init();
   }
 
-  init() async {}
-
   @override
   void setState(fn) {
     if (mounted) super.setState(fn);
+  }
+
+  init() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Loader().launch(context);
+    });
+    // Loader().launch(context);
+    response = await bloc.actionIndex(userId: AppState.instance.user!.id);
+
+    if (response!.status == Status.Error) {
+      ToastConfig.showToast(
+          title: 'Error', message: response!.message, context: context);
+    } else {
+      posts.addAll(response!.data);
+      setState(() {});
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      finish(context);
+    });
   }
 
   @override
@@ -110,9 +135,21 @@ class TTProfileScreenState extends State<TTProfileScreen> {
                 ),
               ];
             },
-            body: TabBarView(
+            body: response != null && (posts.isEmpty)
+                ? ErrorSection(
+                screenError: ScreenError(
+                    title: "sorry",
+                    message: response != null ? response!.message : "",
+                    icon: Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: ColorsConfig.p_color,
+                    )))
+                : TabBarView(
               // children: [TTProfileComponent(), TTProfileComponent()],
-              children: [TTProfileComponent()],
+              children: [TTProfileComponent(
+                posts: posts,
+              )],
             ),
           ),
         )),

@@ -105,7 +105,7 @@ class TTSoundScreenState extends State<TTSoundScreen> {
                   ),
                 ],
               ).onTap(() {
-                TTStoryScreen().launch(context);
+                // TTStoryScreen().launch(context);
               });
             },
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 2.0, crossAxisSpacing: 2.0, childAspectRatio: 1.2),
