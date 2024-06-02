@@ -42,6 +42,9 @@ class Utils {
     arr = arr[0].split("/");
     return arr[arr.length - 1];
   }
+
+  static RegExp regYoutubeUrlExp = RegExp(r'^https?:\/\/(www\.)?youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(\?[\w=&-]+)?$');
+
 }
 
 

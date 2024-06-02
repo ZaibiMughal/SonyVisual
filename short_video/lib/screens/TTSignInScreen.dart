@@ -16,9 +16,12 @@ import 'package:short_video/utils/TTImages.dart';
 import '../business_logic/services/network_service_response.dart';
 import '../config/main_config.dart';
 import '../models/login.dart';
+import '../storage/shared_storage.dart';
 
 class TTSignINScreen extends StatefulWidget {
   static String tag = '/TTSignINScreen';
+  bool? goBack;
+  TTSignINScreen({super.key, this.goBack = false});
 
   @override
   TTSignINScreenState createState() => TTSignINScreenState();
@@ -65,13 +68,19 @@ class TTSignINScreenState extends State<TTSignINScreen> {
       if(response.status ==  Status.Error){
         ToastConfig.showToast(title: 'Error', message: response.message, context: context);
       } else {
-        TTDashboardScreen().launch(context, isNewTask: true);
+        if(widget.goBack == true){
+          finish(context);
+        } else {
+          TTDashboardScreen().launch(context, isNewTask: true);
+        }
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // dynamic output = SharedStorage.get(Config.userStorageKey);
+    // print(output);
     return Scaffold(
       backgroundColor: black,
       body: SafeArea(

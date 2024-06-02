@@ -21,9 +21,9 @@ class TTStoryComponent extends StatefulWidget {
   TTStoryComponentState createState() => TTStoryComponentState();
 
   // TTStoryModel? model;
-  final Post model;
+  final Post post;
 
-  TTStoryComponent({super.key, required this.model});
+  TTStoryComponent({super.key, required this.post});
 }
 
 class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerProviderStateMixin {
@@ -47,7 +47,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
     super.initState();
 
     _controller = YoutubePlayerController(
-      initialVideoId: Utils.getIdFromUrl(widget.model.url!),
+      initialVideoId: Utils.getIdFromUrl(widget.post.url!),
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -114,9 +114,9 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Text("By: ${widget.model!.title}", style: primaryTextStyle(color: white)),
+            Text("By: ${widget.post!.username}", style: primaryTextStyle(color: white)),
             8.height,
-            Text(widget.model!.description!.substring(0, widget.model.description!.length > 15 ? 15 : widget.model.description!.length), style: primaryTextStyle(color: white)),
+            Text(widget.post!.description!.substring(0, widget.post.description!.length > 15 ? 15 : widget.post.description!.length), style: primaryTextStyle(color: white)),
             // 8.height,
             // Container(
             //   width: context.width() - 60,
@@ -192,10 +192,11 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
                 width: 45,
                 height: 45,
                 padding: EdgeInsets.all(8),
-                child: CircleAvatar(radius: 16, backgroundImage: NetworkImage(AppState.instance.user!.url!)),
+                child: CircleAvatar(radius: 16, backgroundImage: NetworkImage("https://admin.sonyvisual.com/images/logo.png")),
               ).onTap(() {
-                if (_controller.value.isPlaying) _controller.pause();
-                TTSoundScreen().launch(context);
+                TTProfileScreen(userId: widget.post.userId,).launch(context);
+                // if (_controller.value.isPlaying) _controller.pause();
+                // TTSoundScreen().launch(context);
               }),
               builder: (context, _widget) {
                 return Transform.rotate(angle: animationController.value * 6.3, child: _widget);

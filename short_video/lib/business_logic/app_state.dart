@@ -21,6 +21,8 @@ class AppState {
   }
 
   bool? getIsLoggedIn() {
+    print(getUserId());
+    return getUserId() > 0;
     if(isLoggedIn == null || isLoggedIn == false){
       bool? output = SharedStorage.getBool(Config.isLoggedIn);
       return isLoggedIn = output ?? false;
@@ -29,12 +31,13 @@ class AppState {
     return isLoggedIn;
   }
 
-  Future<User?> getUser() async {
+  User? getUser() {
     if(user == null){
       dynamic output = SharedStorage.get(Config.userStorageKey);
+
       if(output != null){
-        user = User();
-        user!.fromMap(json.decode(output));
+        User temp = User();
+        user = temp.fromMap(json.decode(output));
       }
     }
     return user;
@@ -65,10 +68,8 @@ class AppState {
 
 
   getUserId(){
-    if(user == null) {
-      return 0;
-    }
-    return user!.getId();
+    user ??= getUser();
+    return user == null ? 0 : user!.getId();
   }
 
 

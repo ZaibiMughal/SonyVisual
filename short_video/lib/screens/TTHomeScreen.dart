@@ -52,8 +52,9 @@ class TTHomeScreenState extends State<TTHomeScreen> {
           title: 'Error', message: response!.message, context: context);
     } else {
       posts.addAll(response!.data);
-      setState(() {});
     }
+
+    setState(() {});
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       finish(context);
     });
@@ -79,10 +80,10 @@ class TTHomeScreenState extends State<TTHomeScreen> {
               )))
           :PageView.builder(
           scrollDirection: Axis.vertical,
-          itemCount: 20,
+          itemCount: posts.length,
           itemBuilder: (context, index) {
             return TTStoryComponent(
-              model: posts[index],
+              post: posts[index],
             );
           });
     }

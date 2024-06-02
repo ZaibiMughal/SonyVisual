@@ -11,9 +11,11 @@ import 'package:short_video/business_logic/app_state.dart';
 import 'package:short_video/business_logic/bloc/post_bloc.dart';
 import 'package:short_video/models/post.dart';
 import 'package:short_video/screens/TTDashboardScreen.dart';
+import 'package:short_video/screens/TTSignInScreen.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTImages.dart';
 import 'package:short_video/utils/TTStepProgressIndicator.dart';
+import 'package:short_video/utils/utils.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../main.dart';
@@ -67,16 +69,28 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-      Loader().launch(context);
-      NetworkServiceResponse response =  await bloc.actionCreate(NewPost(title: titleController.text, description: descController.text, url: videoUrlController.text, userId: AppState.instance.getUserId()));
-      Navigator.pop(context);
-      if(response.status ==  Status.Error){
-        ToastConfig.showToast(title: 'Error', message: response.message, context: context);
+      if (AppState.instance.getIsLoggedIn() != true) {
+        TTSignINScreen(goBack: true,).launch(context);
       } else {
-        ToastConfig.showToast(title: 'Success', message: "Video Posted Successfully", context: context, alertType: AlertType.success);
-        titleController.text = "";
-        descController.text = "";
-        videoUrlController.text = "";
+        Loader().launch(context);
+        NetworkServiceResponse response = await bloc.actionCreate(NewPost(
+            title: titleController.text,
+            description: descController.text,
+            url: videoUrlController.text,
+            userId: AppState.instance.getUserId()));
+        Navigator.pop(context);
+        if (response.status == Status.Error) {
+          ToastConfig.showToast(
+              title: 'Error', message: response.message, context: context);
+        } else {
+          ToastConfig.showToast(title: 'Success',
+              message: "Video Posted Successfully",
+              context: context,
+              alertType: AlertType.success);
+          titleController.text = "";
+          descController.text = "";
+          videoUrlController.text = "";
+        }
       }
     }
   }
@@ -115,12 +129,21 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
                         AppTextField(
                           controller: videoUrlController,
                           textStyle: Config.textStyle,
-                          textFieldType: TextFieldType.URL,
+                          textFieldType: TextFieldType.NAME,
                           decoration: Config.inputDecoration(labelText: "Video URL"),
                           nextFocus: videoUrlFocus,
                           errorThisFieldRequired: errorThisFieldRequired,
-                          errorInvalidURL: "Short Video URL is invalid",
-                          autoFillHints: [AutofillHints.name],
+                          // errorInvalidURL: "Short Video URL is invalid",
+                          validator: (value){
+                            String url = value ?? "";
+                            if(url.isEmpty){
+                              return "This field is required!";
+                            } else if(!Utils.regYoutubeUrlExp.hasMatch(url)){
+                              return "Short Video URL is invalid";
+                            }
+                            return null;
+                          },
+                          autoFillHints: [AutofillHints.url],
                         ),
                         16.height,
                         AppTextField(

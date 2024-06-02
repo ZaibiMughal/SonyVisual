@@ -46,6 +46,7 @@ class Post extends Parent {
   String? description;
   String? url;
   int? userId;
+  String? username;
   String? thumbnail;
 
   Post({
@@ -54,6 +55,7 @@ class Post extends Parent {
     this.description,
     this.url,
     this.userId,
+    this.username,
     this.thumbnail,
   });
 
@@ -75,6 +77,7 @@ class Post extends Parent {
       'id' : id,
       'title' : title,
       'description' : description,
+      'username' : username,
       'url' : url,
       'user_id' : userId,
       'thumbnail' : thumbnail,
@@ -88,6 +91,7 @@ class Post extends Parent {
     description = map['description'];
     url = map['url'];
     userId = map['user_id'];
+    username = map['username'];
     thumbnail = map['thumbnail'];
   }
 }

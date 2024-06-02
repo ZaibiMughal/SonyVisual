@@ -33,10 +33,6 @@ class UserController extends Controller
                             'allow' => true,
                             'roles' => ['@'],
                         ],
-//                        [
-//                            'actions' => ['create', 'index'],
-//                            'allow' => true,
-//                        ],
                     ],
                 ],
                 'verbs' => [

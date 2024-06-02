@@ -46,7 +46,7 @@ class TTStoryScreenState extends State<TTStoryScreen> with SingleTickerProviderS
           itemBuilder: (context, index) {
             // TTStoryModel data = mStoryList[index % mStoryList.length];
 
-            return TTStoryComponent(model: widget.posts[index]);
+            return TTStoryComponent(post: widget.posts[index]);
           });
     }
 

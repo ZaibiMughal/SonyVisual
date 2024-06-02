@@ -39,12 +39,14 @@ class TTSplashScreenState extends State<TTSplashScreen> with AfterLayoutMixin<TT
     // bool _seen = (prefs.getBool('seen') ?? false);
 
     await Future.delayed(Duration(seconds: 2));
-    
-    if(AppState.instance.getIsLoggedIn() == false) {
-      TTSignINScreen().launch(context, isNewTask: true);
-    } else {
-      TTDashboardScreen().launch(context, isNewTask: true);
-    }
+
+    TTDashboardScreen().launch(context, isNewTask: true);
+
+    // if(AppState.instance.getIsLoggedIn() == false) {
+    //   TTSignINScreen().launch(context, isNewTask: true);
+    // } else {
+    //   TTDashboardScreen().launch(context, isNewTask: true);
+    // }
 
     //
     // if (_seen) {

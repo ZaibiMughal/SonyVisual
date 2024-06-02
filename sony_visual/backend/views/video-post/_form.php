@@ -16,7 +16,7 @@ use yii\helpers\Html;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->dropDownList(\common\models\User::getUserArray()) ?>
+    <?= $form->field($model, 'user_id')->dropDownList(\common\models\User::getUserArray(true)) ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 

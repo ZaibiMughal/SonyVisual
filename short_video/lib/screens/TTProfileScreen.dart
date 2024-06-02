@@ -22,6 +22,8 @@ import 'TTFanListScreen.dart';
 class TTProfileScreen extends StatefulWidget {
   static String tag = '/TTProfileScreen';
 
+  int? userId;
+  TTProfileScreen({super.key, this.userId});
   @override
   TTProfileScreenState createState() => TTProfileScreenState();
 }
@@ -49,7 +51,7 @@ class TTProfileScreenState extends State<TTProfileScreen> {
       Loader().launch(context);
     });
     // Loader().launch(context);
-    response = await bloc.actionIndex(userId: AppState.instance.user!.id);
+    response = await bloc.actionIndex(userId: widget.userId ?? AppState.instance.getUserId());
 
     if (response!.status == Status.Error) {
       ToastConfig.showToast(
@@ -80,8 +82,8 @@ class TTProfileScreenState extends State<TTProfileScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
-        appBar: ttAppBar(context, "Profile", showBack: false, actions: [
-          PopupMenuButton(
+        appBar: ttAppBar(context, "Profile", showBack: widget.userId != null, actions: [
+          AppState.instance.getIsLoggedIn() == true  ? PopupMenuButton(
             color: Colors.grey.shade200,
             icon: Icon(
               Icons.more_horiz,
@@ -100,7 +102,7 @@ class TTProfileScreenState extends State<TTProfileScreen> {
               list.add(PopupMenuItem(child: Text("Edit Profile", style: primaryTextStyle()), value: 'profile'));
               return list;
             },
-          )
+          ): SizedBox()
         ]) as PreferredSizeWidget?,
         body: Responsive(
             mobile: DefaultTabController(
@@ -127,7 +129,7 @@ class TTProfileScreenState extends State<TTProfileScreen> {
                           8.height,
                           Container(decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: Image.asset(TT_ic_logo, height: 80).cornerRadiusWithClipRRect(16)),
                           10.height,
-                          Text("SonyVisual", style: boldTextStyle(size: 18, color: white)),
+                          Text(posts.isNotEmpty ? posts[0].username! : "SonyVisual", style: boldTextStyle(size: 18, color: white)),
                         ],
                       ),
                     ),

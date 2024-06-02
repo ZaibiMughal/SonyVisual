@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\VideoPost;
 use common\models\VideoPostSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,10 +22,22 @@ class VideoPostController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        'create' => ['GET', 'POST'],
+                        'update' => ['GET', 'PUT', 'POST'],
+                        'delete' => ['POST', 'DELETE'],
+                        '*' => ['GET','POST'],
                     ],
                 ],
             ]

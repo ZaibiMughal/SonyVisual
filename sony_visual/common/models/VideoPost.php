@@ -107,6 +107,7 @@ class VideoPost extends \yii\db\ActiveRecord
             'title' => $this->description,
             'description' => $this->description,
             'user_id' => $this->user_id,
+            'username' => $this->getUserName(),
             'privacy' => $this->privacy,
             'url' => $this->url,
             'thumbnail' => $this->getThumbnail(),

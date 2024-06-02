@@ -29,7 +29,7 @@ $this->title = 'SonyVisual';
 
         <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-            <?= $form->field($model, 'email')->textInput(['autofocus' => true])->label('CellPhone | Email') ?>
+            <?= $form->field($model, 'email')->textInput(['autofocus' => true])->label('Phone | Email') ?>
 
             <?= $form->field($model, 'password')->passwordInput() ?>
 

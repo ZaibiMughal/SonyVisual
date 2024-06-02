@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:short_video/business_logic/app_state.dart';
 import 'package:short_video/config/colors_config.dart';
 import 'package:short_video/screens/TTAddPostScreen.dart';
 import 'package:short_video/screens/TTHomeScreen.dart';
+import 'package:short_video/screens/TTSignInScreen.dart';
 import 'package:short_video/utils/TTColors.dart';
 
 import 'TTNotificationScreen.dart';
@@ -12,6 +14,10 @@ import 'TTSearchScreen.dart';
 
 class TTDashboardScreen extends StatefulWidget {
   static String tag = '/TTDashboardScreen';
+  int? index;
+
+  TTDashboardScreen({super.key, this.index});
+
 
   @override
   TTDashboardScreenState createState() => TTDashboardScreenState();
@@ -20,19 +26,22 @@ class TTDashboardScreen extends StatefulWidget {
 class TTDashboardScreenState extends State<TTDashboardScreen> {
   var selectedIndex = 0;
 
-  var pages = [
-    TTSearchScreen(),
-    TTHomeScreen(),
-    TTAddPostScreen(),
-    TTProfileScreen(),
-    // TTNotificationScreen(),
-    TTHomeScreen(autoload: true,),
-  ];
+  late var pages;
 
   @override
   void initState() {
     super.initState();
-    selectedIndex = 0;
+
+    pages = [
+      TTSearchScreen(),
+      TTHomeScreen(),
+      TTAddPostScreen(),
+      TTProfileScreen(),
+      // TTNotificationScreen(),
+      TTHomeScreen(autoload: true,),
+    ];
+
+    selectedIndex = widget.index ?? 1;
     init();
   }
 
@@ -70,8 +79,10 @@ class TTDashboardScreenState extends State<TTDashboardScreen> {
       );
     }
 
+    print("sss");
+    print(AppState.instance.getUserId());
     return Scaffold(
-      body: pages[selectedIndex],
+      body: selectedIndex == 3 ? AppState.instance.getUserId() > 0 ? pages[selectedIndex] : TTSignINScreen() : pages[selectedIndex],
       bottomNavigationBar: selectedIndex != 6
           ? Container(
               height: 60,
