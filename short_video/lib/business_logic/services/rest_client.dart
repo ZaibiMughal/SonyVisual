@@ -106,7 +106,7 @@ class RestClient {
     } on DioError catch (e) {
       print(e.error);
       return NetworkServiceResponse(
-          data: null, status: Status.Error, message: e.message ?? "Something went wrong");
+          data: null, status: Status.Error, message:  "Something went wrong");
     } catch (e){
       print(e);
       return NetworkServiceResponse(

@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:short_video/providers/ad_provider.dart';
 import 'package:short_video/providers/connection_provider.dart';
+import 'package:short_video/providers/timer_provider.dart';
 import 'package:short_video/screens/TTSplashScreen.dart';
 
 void main() async {
@@ -16,6 +19,8 @@ void main() async {
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
   await Hive.openBox("sonyVisual");
+
+  MobileAds.instance.initialize();
 
   runApp(const MyApp());
 }
@@ -47,6 +52,12 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider<ConnectionProvider>(
           create: (context) => ConnectionProvider(),
+        ),
+        ChangeNotifierProvider<TimerProvider>(
+          create: (context) => TimerProvider(),
+        ),
+        ChangeNotifierProvider<AdProvider>(
+          create: (context) => AdProvider(),
         )
       ],
       child: MaterialApp(

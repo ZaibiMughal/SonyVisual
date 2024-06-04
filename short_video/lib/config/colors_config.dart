@@ -11,7 +11,7 @@ class ColorsConfig {
   /// d => Dark
 
   // Main Application UI Colors
-  static const p_l_color = Colors.deepPurple;
+  static const p_l_color = Color(0xff00B2CA);
   static const p_d_color = Colors.black;
   static const s_l_color = Colors.black87;
   static const s_d_color = Colors.grey;

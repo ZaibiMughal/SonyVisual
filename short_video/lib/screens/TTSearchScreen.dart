@@ -77,8 +77,8 @@ class TTSearchScreenState extends State<TTSearchScreen> {
 
     return SafeArea(
         child: Scaffold(
-      appBar:
-          ttAppBar(context, "Home", showBack: false) as PreferredSizeWidget?,
+      // appBar:
+      //     ttAppBar(context, "Home", showBack: false) as PreferredSizeWidget?,
       backgroundColor: black,
       body: Responsive(
         mobile: response != null && (posts.isEmpty)
@@ -108,7 +108,13 @@ class TTSearchScreenState extends State<TTSearchScreen> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          TTStoryScreen(posts: posts,).launch(context);
+                          Post post = Post(id: posts[index].id, title: posts[index].title, description: posts[index].description, url: posts[index].url, thumbnail: posts[index].thumbnail, userId: posts[index].userId, username: posts[index].username);
+                          List<Post> temp = [];
+                          temp.addAll(posts);
+
+                          temp.removeAt(index);
+                          temp.insert(0, post);
+                          TTStoryScreen(posts: temp,).launch(context);
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(

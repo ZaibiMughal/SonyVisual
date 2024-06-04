@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:short_video/components/TTStoryComponent.dart';
 import 'package:short_video/components/TTStoryHeaderComponent.dart';
 import 'package:short_video/config/toast_config.dart';
 import 'package:short_video/model/TTModel.dart';
 import 'package:short_video/models/post.dart';
+import 'package:short_video/providers/ad_provider.dart';
+import 'package:short_video/providers/timer_provider.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTDataProvider.dart';
+import 'package:short_video/utils/utils.dart';
 
 import '../business_logic/bloc/post_bloc.dart';
 import '../business_logic/services/network_service_response.dart';
@@ -35,6 +39,14 @@ class TTHomeScreenState extends State<TTHomeScreen> {
 
   List<Post> posts = [];
 
+  late PageController _pageController;
+  int _currentPage = 0;
+
+  DateTime? _lastCallTime;
+
+  bool isAdLoadedresult = false;
+
+  AdProvider? adProvider;
   @override
   void initState() {
     super.initState();
@@ -42,6 +54,19 @@ class TTHomeScreenState extends State<TTHomeScreen> {
   }
 
   init() async {
+
+    _pageController = PageController(initialPage: 0);
+
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if(widget.autoload != true){
+        bool result = await Utils.showInterstitialAd();
+        adProvider = Provider.of<AdProvider>(context, listen: false);
+        adProvider?.setIsAdLoaded(result);
+      }
+    });
+
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       Loader().launch(context);
     });
@@ -66,6 +91,39 @@ class TTHomeScreenState extends State<TTHomeScreen> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+
+  void _goToNextPage(TimerProvider provider) async {
+
+    DateTime now = DateTime.now();
+
+    if (_lastCallTime == null || now.difference(_lastCallTime!).inSeconds > 2) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        provider.setIsVideoFinished(false);
+      });
+
+      // print("My Next Video is: ${_currentPage}");
+
+
+      if (widget.autoload && (_currentPage < posts.length - 1)) {
+        _pageController.animateToPage(
+          _currentPage + 1,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+      _lastCallTime = now;
+    }
+
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
     Widget _body() {
       return response != null && (posts.isEmpty)
@@ -78,14 +136,23 @@ class TTHomeScreenState extends State<TTHomeScreen> {
                 size: 48,
                 color: ColorsConfig.p_color,
               )))
-          :PageView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: posts.length,
-          itemBuilder: (context, index) {
-            return TTStoryComponent(
-              post: posts[index],
-            );
-          });
+          :Consumer<TimerProvider>(
+        builder: (context, provider, child) {
+          if(provider.getIsVideoFinished()){
+            _goToNextPage(provider);
+          }
+          return PageView.builder(
+            controller: _pageController,
+              scrollDirection: Axis.vertical,
+              itemCount: posts.length,
+              itemBuilder: (context, index) {
+                _currentPage = index;
+                return TTStoryComponent(
+                  post: posts[index],
+                );
+              });
+        }
+          );
     }
 
     return Scaffold(

@@ -16,6 +16,7 @@ import '../config/main_config.dart';
 import '../config/toast_config.dart';
 import '../models/post.dart';
 import '../models/screen_error.dart';
+import '../utils/utils.dart';
 import 'TTErrorSection.dart';
 import 'TTFanListScreen.dart';
 
@@ -38,6 +39,9 @@ class TTProfileScreenState extends State<TTProfileScreen> {
   @override
   void initState() {
     super.initState();
+
+    Utils.showInterstitialAd();
+
     init();
   }
 
@@ -51,7 +55,7 @@ class TTProfileScreenState extends State<TTProfileScreen> {
       Loader().launch(context);
     });
     // Loader().launch(context);
-    response = await bloc.actionIndex(userId: widget.userId ?? AppState.instance.getUserId());
+    response = await bloc.actionIndex(userId: widget.userId ?? AppCurrentState.instance.getUserId());
 
     if (response!.status == Status.Error) {
       ToastConfig.showToast(
@@ -83,7 +87,7 @@ class TTProfileScreenState extends State<TTProfileScreen> {
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: ttAppBar(context, "Profile", showBack: widget.userId != null, actions: [
-          AppState.instance.getIsLoggedIn() == true  ? PopupMenuButton(
+          AppCurrentState.instance.getIsLoggedIn() == true  ? PopupMenuButton(
             color: Colors.grey.shade200,
             icon: Icon(
               Icons.more_horiz,

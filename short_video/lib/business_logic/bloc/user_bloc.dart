@@ -30,7 +30,7 @@ class UserBloc{
     if (result.status != Status.Error) {
 
       user.fromJson(result.data);
-      await AppState.instance.setUser(user);
+      await AppCurrentState.instance.setUser(user);
     }
     return NetworkServiceResponse(
         data: user,
@@ -47,7 +47,7 @@ class UserBloc{
     if (result.status != Status.Error) {
 
       user.fromJson(result.data);
-      await AppState.instance.setUser(user);
+      await AppCurrentState.instance.setUser(user);
 
       // _inData.add(user);
     }
@@ -63,8 +63,8 @@ class UserBloc{
     NetworkServiceResponse result = await RestClient.instance.request(url: API.updateUserProfile, method: Config.HTTP_GET, params: payload);
 
     if (result.status != Status.Error) {
-      AppState.instance.user!.fromJson(result.data);
-      AppState.instance.updateUser();
+      AppCurrentState.instance.user!.fromJson(result.data);
+      AppCurrentState.instance.updateUser();
     }
     return NetworkServiceResponse(
         data: null,
@@ -75,12 +75,12 @@ class UserBloc{
   Future<NetworkServiceResponse<void>> actionChangePassword(ChangePassword changePassword) async {
 
     Map<String, dynamic> payload = await changePassword.mapToArray();
-    String url = '${API.changePassword}${AppState.instance.getUserId()}/${changePassword.password}/${changePassword.newPassword}/';
+    String url = '${API.changePassword}${AppCurrentState.instance.getUserId()}/${changePassword.password}/${changePassword.newPassword}/';
     NetworkServiceResponse result = await RestClient.instance.request(url: url, method: Config.HTTP_GET);
 
     if (result.status != Status.Error) {
-      AppState.instance.user!.fromJson(result.data);
-      AppState.instance.updateUser();
+      AppCurrentState.instance.user!.fromJson(result.data);
+      AppCurrentState.instance.updateUser();
     }
 
     return NetworkServiceResponse(
@@ -92,10 +92,10 @@ class UserBloc{
 
   Future<NetworkServiceResponse<User>> actionDelete() async {
 
-    NetworkServiceResponse result = await RestClient.instance.request(url: API.deleteUser, method: Config.HTTP_GET, params: {"id" : AppState.instance.user!.id});
+    NetworkServiceResponse result = await RestClient.instance.request(url: API.deleteUser, method: Config.HTTP_GET, params: {"id" : AppCurrentState.instance.getUserId()});
 
     if (result.status != Status.Error) {
-      await AppState.instance.logout();
+      await AppCurrentState.instance.logout();
     }
     return NetworkServiceResponse(
         data: null,

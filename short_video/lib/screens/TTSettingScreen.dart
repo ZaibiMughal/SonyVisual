@@ -144,7 +144,7 @@ class TTSettingScreenState extends State<TTSettingScreen> {
                 mOption(Icons.logout, "Logout").onTap(() async {
                   bool? res = await showConfirmDialog(context, 'Do you want to logout?');
                   if (res ?? false) {
-                    AppState.instance.logout();
+                    AppCurrentState.instance.logout();
                     TTSignINScreen().launch(context, isNewTask: true);
                   }
                 }),

@@ -69,7 +69,7 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-      if (AppState.instance.getIsLoggedIn() != true) {
+      if (AppCurrentState.instance.getIsLoggedIn() != true) {
         TTSignINScreen(goBack: true,).launch(context);
       } else {
         Loader().launch(context);
@@ -77,7 +77,7 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
             title: titleController.text,
             description: descController.text,
             url: videoUrlController.text,
-            userId: AppState.instance.getUserId()));
+            userId: AppCurrentState.instance.getUserId()));
         Navigator.pop(context);
         if (response.status == Status.Error) {
           ToastConfig.showToast(

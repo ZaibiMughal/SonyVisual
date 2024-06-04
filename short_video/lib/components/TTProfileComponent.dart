@@ -44,7 +44,7 @@ class TTProfileComponentState extends State<TTProfileComponent> {
   Future<bool> delete(int id) async {
     hideKeyboard(context);
     Loader().launch(context);
-    NetworkServiceResponse response =  await bloc.actionDelete(id, AppState.instance.user!.id);
+    NetworkServiceResponse response =  await bloc.actionDelete(id, AppCurrentState.instance.getUserId());
     Navigator.pop(context);
     if(response.status ==  Status.Error){
       ToastConfig.showToast(title: 'Error', message: response.message, context: context);
@@ -74,7 +74,15 @@ class TTProfileComponentState extends State<TTProfileComponent> {
               height: 200,
               child: GestureDetector(
                 onTap: () {
-                  TTStoryScreen(posts: widget.posts,).launch(context);
+
+                  Post post = Post(id: widget.posts[index].id, title: widget.posts[index].title, description: widget.posts[index].description, url: widget.posts[index].url, thumbnail: widget.posts[index].thumbnail, userId: widget.posts[index].userId, username: widget.posts[index].username);
+                  List<Post> temp = [];
+                  temp.addAll(widget.posts);
+
+                  temp.removeAt(index);
+                  temp.insert(0, post);
+
+                  TTStoryScreen(posts: temp,).launch(context);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
@@ -96,7 +104,7 @@ class TTProfileComponentState extends State<TTProfileComponent> {
                 ),
               ),
             ),
-            Positioned(
+             widget.posts[index].userId == AppCurrentState.instance.getUserId() ? Positioned(
               top: 0,
                 right: -10,
                 child: PopupMenuButton(
@@ -128,7 +136,7 @@ class TTProfileComponentState extends State<TTProfileComponent> {
                     return list;
                   },
                 )
-            )
+            ) : SizedBox()
           ],
         );
       },

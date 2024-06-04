@@ -6,6 +6,7 @@ import 'package:short_video/storage/shared_storage.dart';
 import 'package:short_video/utils/TTConstant.dart';
 import 'package:short_video/utils/TTImages.dart';
 
+import '../utils/utils.dart';
 import 'TTDashboardScreen.dart';
 import 'TTLanguageSelectionScreen.dart';
 
@@ -24,7 +25,8 @@ class TTSplashScreenState extends State<TTSplashScreen> with AfterLayoutMixin<TT
   }
 
   init() async {
-    //
+    Utils.loadBannerAd();
+    Utils.loadInterstitialAd();
   }
 
   @override
@@ -71,8 +73,8 @@ class TTSplashScreenState extends State<TTSplashScreen> with AfterLayoutMixin<TT
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: Image.asset(TT_ic_logo, height: 80).cornerRadiusWithClipRRect(16)),
-          8.height,
-          Text(TTAppName, style: boldTextStyle(size: 25, color: Colors.white)),
+          // 8.height,
+          // Text(TTAppName, style: boldTextStyle(size: 25, color: Colors.white)),
         ],
       ).center(),
     );

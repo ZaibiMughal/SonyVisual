@@ -38,9 +38,9 @@ class TTEditProfileScreenState extends State<TTEditProfileScreen> {
   }
 
   init() async {
-    firstNameController.text = AppState.instance.user!.firstName!;
-    lastNameController.text = AppState.instance.user!.lastName!;
-    emailController.text = AppState.instance.user!.email!;
+    firstNameController.text = AppCurrentState.instance.user!.firstName!;
+    lastNameController.text = AppCurrentState.instance.user!.lastName!;
+    emailController.text = AppCurrentState.instance.user!.email!;
   }
 
   @override
@@ -54,7 +54,7 @@ class TTEditProfileScreenState extends State<TTEditProfileScreen> {
       formKey.currentState!.save();
 
       Loader().launch(context);
-      NetworkServiceResponse response =  await userBloc.actionEdit(EditProfile(firstName: firstNameController.text, lastName: lastNameController.text, email: emailController.text, userId: AppState.instance.getUserId()));
+      NetworkServiceResponse response =  await userBloc.actionEdit(EditProfile(firstName: firstNameController.text, lastName: lastNameController.text, email: emailController.text, userId: AppCurrentState.instance.getUserId()));
       Navigator.pop(context);
       if(response.status ==  Status.Error){
         ToastConfig.showToast(title: 'Error', message: response.message, context: context);

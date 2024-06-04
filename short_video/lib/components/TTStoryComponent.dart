@@ -3,16 +3,21 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:short_video/business_logic/app_state.dart';
 import 'package:short_video/model/TTModel.dart';
 import 'package:short_video/models/post.dart';
+import 'package:short_video/providers/ad_provider.dart';
+import 'package:short_video/providers/timer_provider.dart';
 import 'package:short_video/screens/TTProfileScreen.dart';
 import 'package:short_video/screens/TTSoundScreen.dart';
+import 'package:short_video/screens/home.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTWidgets.dart';
 import 'package:short_video/utils/utils.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import'dart:io' show Platform;
 
 class TTStoryComponent extends StatefulWidget {
   static String tag = '/TTStoryComponent';
@@ -42,6 +47,9 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
   late PlayerState _playerState;
   late YoutubeMetaData _videoMetaData;
 
+  late TimerProvider timerProvider;
+  AdProvider? adProvider;
+
   @override
   void initState() {
     super.initState();
@@ -58,7 +66,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
         enableCaption: false,
           hideControls: true,
       ),
-    )..addListener(listener);
+    );
 
 
     _videoMetaData = const YoutubeMetaData();
@@ -70,31 +78,31 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
 
 
 
-  void listener() {
-    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-      setState(() {
-        _playerState = _controller.value.playerState;
-        _videoMetaData = _controller.metadata;
-      });
+  void listener() async {
+    if (_controller.value.isPlaying && mounted && !_controller.value.isFullScreen) {
+      // print("Duration: ${_controller.value.position} - ${_controller.value.metaData.duration} - ${(_controller.value.metaData.duration - _controller.value.position)}");
+      if((_controller.value.metaData.duration - _controller.value.position) < const Duration(seconds: 2) && _controller.value.position != Duration.zero){
+
+        timerProvider.setIsVideoFinished(true);
+        // _controller.pause();
+        // await Future.delayed(Duration(seconds: 2));
+        _controller.seekTo(Duration(seconds: 0));
+      }
     }
   }
 
   init() async {
     animationController = new AnimationController(vsync: this, duration: new Duration(seconds: 5));
     animationController.repeat();
-    // _controller = VideoPlayerController.network(widget.model!.videoUrl)
-    //   ..initialize().then((value) {
-    //     _controller.play();
-    //     _controller.setLooping(true);
-    //     setState(() {});
-    //   });
   }
+
 
   @override
   void dispose() {
     _controller.dispose();
     animationController.dispose();
-    print("dispose");
+    adProvider!.setIsAdLoaded(false);
+
     super.dispose();
   }
 
@@ -105,6 +113,8 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
 
   @override
   Widget build(BuildContext context) {
+    timerProvider = Provider.of<TimerProvider>(context, listen: false);
+    adProvider = Provider.of<AdProvider>(context, listen: false);
     Widget _bottomContent() {
       return Container(
         alignment: Alignment.topLeft,
@@ -114,9 +124,13 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Text("By: ${widget.post!.username}", style: primaryTextStyle(color: white)),
+            Text("By: ${widget.post!.username}",
+                style: primaryTextStyle(color: white)),
             8.height,
-            Text(widget.post!.description!.substring(0, widget.post.description!.length > 15 ? 15 : widget.post.description!.length), style: primaryTextStyle(color: white)),
+            Text(widget.post!.description!.substring(0,
+                widget.post.description!.length > 15 ? 15 : widget.post
+                    .description!.length),
+                style: primaryTextStyle(color: white)),
             // 8.height,
             // Container(
             //   width: context.width() - 60,
@@ -168,16 +182,29 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
             //     ),
             //   ),
             // ),
-            // 16.height,
-            // IconButton(
-            //     icon: Icon(Icons.favorite, size: 35, color: widget.model!.isFavourite ? TTColorRed : white),
-            //     onPressed: () {
-            //       setState(() {
-            //         widget.model!.isFavourite = !widget.model!.isFavourite;
-            //       });
-            //     }),
+            16.height,
+            IconButton(
+                icon: Icon(Icons.shopping_bag_outlined, size: 28, color: white),
+                onPressed: () async {
+                  String url = Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.Clorop.Llc" : "https://apps.apple.com/us/app/clorop-earn-money/id6499473697";
+                  await Utils.launchExternalUrl(Uri.parse(url));
+                }),
+            IconButton(
+                icon: Icon(Icons.radio_outlined, size: 25, color: white),
+                onPressed: () async {
+                  String url = Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.sonyplays.app" : "https://apps.apple.com/us/app/sony-plays/id6502907038";
+                  await Utils.launchExternalUrl(Uri.parse(url));
+                }),
+            IconButton(
+                icon: Icon(Icons.chat_bubble_outline, size: 25, color: white),
+                onPressed: () async {
+                  if (_controller.value.isPlaying) _controller.pause();
+                  MyHomePage().launch(context);
+                  // String url = Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.sonyplays.app" : "https://apps.apple.com/us/app/sony-plays/id6502907038";
+                  // await Utils.launchExternalUrl(Uri.parse(url));
+                }),
             // Text(widget.model!.like, style: primaryTextStyle(color: white)),
-            // 10.height,
+            10.height,
             // Transform(alignment: Alignment.center, transform: Matrix4.rotationY(math.pi), child: Icon(Icons.reply, size: 35, color: white)).onTap(() {
             //   setState(() {
             //     onShareTap(context);
@@ -194,8 +221,9 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
                 padding: EdgeInsets.all(8),
                 child: CircleAvatar(radius: 16, backgroundImage: NetworkImage("https://admin.sonyvisual.com/images/logo.png")),
               ).onTap(() {
+                if (_controller.value.isPlaying) _controller.pause();
                 TTProfileScreen(userId: widget.post.userId,).launch(context);
-                // if (_controller.value.isPlaying) _controller.pause();
+
                 // TTSoundScreen().launch(context);
               }),
               builder: (context, _widget) {
@@ -208,43 +236,52 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
     }
 
     Widget mBody() {
-      return Stack(
-        alignment: Alignment.bottomLeft,
-        children: <Widget>[
-          GestureDetector(
-              onTap: () {
-                setState(() {
-                  if (play) {
-                    _controller.pause();
-                    play = !play;
-                  } else {
-                    _controller.play();
-                    play = !play;
-                  }
-                });
-              },
-              child: Container(
-                width: context.width(),
-                height: context.height(),
-                child: YoutubePlayer(
-                  controller: _controller,
-                  showVideoProgressIndicator: true,
-                  progressIndicatorColor: Colors.amber,
-                  progressColors: const ProgressBarColors(
-                    playedColor: Colors.amber,
-                    handleColor: Colors.amberAccent,
+      return Consumer<AdProvider>(
+          builder: (context, provider, child)
+      {
+        return Stack(
+          alignment: Alignment.bottomLeft,
+          children: <Widget>[
+            GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (play) {
+                      _controller.pause();
+                      play = !play;
+                    } else {
+                      _controller.play();
+                      play = !play;
+                    }
+                  });
+                },
+                child: Container(
+                  width: context.width(),
+                  height: context.height(),
+                  child: YoutubePlayer(
+                    controller: _controller,
+                    showVideoProgressIndicator: true,
+                    progressIndicatorColor: Colors.amber,
+                    progressColors: const ProgressBarColors(
+                      playedColor: Colors.amber,
+                      handleColor: Colors.amberAccent,
+                    ),
+                    onReady: () {
+                      if (provider.getIsAdLoaded()) {
+                        _controller.pause();
+                      }
+                      _controller.addListener(listener);
+                    },
                   ),
-                  onReady: () {
-                    _controller.addListener(listener);
-                  },
-                ),
 
-                // VideoPlayer(_controller),
-              )),
-          _rightContent(),
-          _bottomContent(),
-        ],
-      );
+                  // VideoPlayer(_controller),
+                )
+
+            ),
+            _rightContent(),
+            _bottomContent(),
+          ],
+        );
+      });
     }
 
     return mBody();

@@ -65,12 +65,12 @@ class PostBloc{
   Future<NetworkServiceResponse<void>> actionChangePassword(ChangePassword changePassword) async {
 
     Map<String, dynamic> payload = await changePassword.mapToArray();
-    String url = '${API.changePassword}${AppState.instance.getUserId()}/${changePassword.password}/${changePassword.newPassword}/';
+    String url = '${API.changePassword}${AppCurrentState.instance.getUserId()}/${changePassword.password}/${changePassword.newPassword}/';
     NetworkServiceResponse result = await RestClient.instance.request(url: url, method: Config.HTTP_GET);
 
     if (result.status != Status.Error) {
-      AppState.instance.user!.fromJson(result.data);
-      AppState.instance.updateUser();
+      AppCurrentState.instance.user!.fromJson(result.data);
+      AppCurrentState.instance.updateUser();
     }
 
     return NetworkServiceResponse(

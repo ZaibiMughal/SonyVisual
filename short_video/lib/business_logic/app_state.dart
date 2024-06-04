@@ -3,17 +3,17 @@ import 'package:short_video/storage/shared_storage.dart';
 import '../config/main_config.dart';
 import '../models/user.dart';
 
-class AppState {
-  AppState._();
+class AppCurrentState {
+  AppCurrentState._();
 
   User? user;
   bool? isLoggedIn;
 
   // Singleton instance
-  static final AppState _singleton = AppState._();
+  static final AppCurrentState _singleton = AppCurrentState._();
 
   // Singleton accessor
-  static AppState get instance => _singleton;
+  static AppCurrentState get instance => _singleton;
 
   Future<bool> setIsLoggedIn(bool value) async {
     await SharedStorage.setBool(Config.isLoggedIn, value);

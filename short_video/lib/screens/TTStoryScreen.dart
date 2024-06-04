@@ -22,9 +22,11 @@ class TTStoryScreen extends StatefulWidget {
 class TTStoryScreenState extends State<TTStoryScreen> with SingleTickerProviderStateMixin {
   var mStoryList = getStoryData();
 
+
   @override
   void initState() {
     super.initState();
+
     init();
   }
 
@@ -39,13 +41,12 @@ class TTStoryScreenState extends State<TTStoryScreen> with SingleTickerProviderS
 
   @override
   Widget build(BuildContext context) {
+    // print("_currentPage ${_currentPage}");
     Widget _body() {
       return PageView.builder(
           scrollDirection: Axis.vertical,
           itemCount: widget.posts.length,
           itemBuilder: (context, index) {
-            // TTStoryModel data = mStoryList[index % mStoryList.length];
-
             return TTStoryComponent(post: widget.posts[index]);
           });
     }
@@ -55,7 +56,6 @@ class TTStoryScreenState extends State<TTStoryScreen> with SingleTickerProviderS
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-        
             _body(),
             // TTStoryHeaderComponent(),
             IconButton(

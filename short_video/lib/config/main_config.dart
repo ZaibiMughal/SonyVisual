@@ -51,4 +51,14 @@ class Config {
   );
 
   static TextStyle textStyle = TextStyle(color: ColorsConfig.p_textColor);
+
+
+  static const String androidAdMobId = 'ca-app-pub-3940256099942544~3347511713';
+  static const String androidAdMobBannerUnitId =
+      'ca-app-pub-3940256099942544/6300978111';
+  static const String androidAdMobInterstitialUnitId =
+      'ca-app-pub-3940256099942544/1033173712';
+  static const String iOSAdMobId = 'ca-app-pub-7617934641401276~9607996786';
+  static const String iOSAdMobBannerUnitId = 'ca-app-pub-3940256099942544/2934735716';
+  static const String iOSAdMobInterstitialUnitId = 'ca-app-pub-3940256099942544/4411468910';
 }
