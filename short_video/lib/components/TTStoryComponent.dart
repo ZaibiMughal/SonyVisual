@@ -1,18 +1,24 @@
 import 'dart:math' as math;
 
+import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:short_video/business_logic/app_state.dart';
+import 'package:short_video/business_logic/bloc/post_bloc.dart';
+import 'package:short_video/business_logic/services/network_service_response.dart';
+import 'package:short_video/config/main_config.dart';
 import 'package:short_video/model/TTModel.dart';
 import 'package:short_video/models/post.dart';
 import 'package:short_video/providers/ad_provider.dart';
 import 'package:short_video/providers/timer_provider.dart';
 import 'package:short_video/screens/TTProfileScreen.dart';
+import 'package:short_video/screens/TTSignInScreen.dart';
 import 'package:short_video/screens/TTSoundScreen.dart';
 import 'package:short_video/screens/home.dart';
 import 'package:short_video/utils/TTColors.dart';
+import 'package:short_video/utils/TTConstant.dart';
 import 'package:short_video/utils/TTWidgets.dart';
 import 'package:short_video/utils/utils.dart';
 import 'package:video_player/video_player.dart';
@@ -49,6 +55,8 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
 
   late TimerProvider timerProvider;
   AdProvider? adProvider;
+
+  PostBloc postBloc = PostBloc();
 
   @override
   void initState() {
@@ -184,15 +192,58 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
             // ),
             16.height,
             IconButton(
+                icon: Icon(Icons.favorite_outline, size: 28, color: widget.post.isFavorite! == 1 ? redColor : white),
+                onPressed: () async {
+
+                  if(AppCurrentState.instance.getIsLoggedIn() == false){
+                    return TTSignINScreen(goBack: true,).launch(context);
+                  }
+
+                  int favValue = widget.post.isFavorite! == 0 ? 1 : 0;
+                  NetworkServiceResponse response = await postBloc.actionUpdateFavoriteStatus(AppCurrentState.instance.getUserId(), widget.post.id!, favValue);
+                  if(response.status == Status.Error){
+                    toast("Can't like this video, please try again later");
+                  } else {
+                    widget.post.isFavorite = favValue;
+                    setState(() { });
+                  }
+                }),
+            IconButton(
                 icon: Icon(Icons.shopping_bag_outlined, size: 28, color: white),
                 onPressed: () async {
-                  String url = Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.Clorop.Llc" : "https://apps.apple.com/us/app/clorop-earn-money/id6499473697";
+
+                  String url = "";
+                  if(Platform.isAndroid){
+                    url = "https://play.google.com/store/apps/details?id=com.Clorop.Llc" ;
+                    Application? app = await DeviceApps.getApp('com.Clorop.Llc');
+                    if(app != null){
+                      bool isAppOpened = await DeviceApps.openApp('com.Clorop.Llc');
+                      if(isAppOpened){
+                        return;
+                      }
+                    }
+                  } else {
+                    url = "https://apps.apple.com/us/app/clorop-earn-money/id6499473697";
+                  }
+
                   await Utils.launchExternalUrl(Uri.parse(url));
                 }),
             IconButton(
                 icon: Icon(Icons.radio_outlined, size: 25, color: white),
                 onPressed: () async {
-                  String url = Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.sonyplays.app" : "https://apps.apple.com/us/app/sony-plays/id6502907038";
+                  String url = "";
+                  if(Platform.isAndroid){
+                    url = "https://play.google.com/store/apps/details?id=com.sonyplays.app" ;
+                    Application? app = await DeviceApps.getApp('com.frandroid.app');
+                    if(app != null){
+                     bool isAppOpened = await DeviceApps.openApp('com.frandroid.app');
+                     if(isAppOpened){
+                       return;
+                     }
+                    }
+                  } else {
+                    url = "https://apps.apple.com/us/app/sony-plays/id6502907038";
+                  }
                   await Utils.launchExternalUrl(Uri.parse(url));
                 }),
             IconButton(
@@ -200,18 +251,15 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
                 onPressed: () async {
                   if (_controller.value.isPlaying) _controller.pause();
                   MyHomePage().launch(context);
-                  // String url = Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.sonyplays.app" : "https://apps.apple.com/us/app/sony-plays/id6502907038";
-                  // await Utils.launchExternalUrl(Uri.parse(url));
                 }),
             // Text(widget.model!.like, style: primaryTextStyle(color: white)),
             10.height,
-            // Transform(alignment: Alignment.center, transform: Matrix4.rotationY(math.pi), child: Icon(Icons.reply, size: 35, color: white)).onTap(() {
-            //   setState(() {
-            //     onShareTap(context);
-            //   });
-            // }),
-            // Text(widget.model!.share, style: primaryTextStyle(color: white)),
-            // 10.height,
+            Transform(alignment: Alignment.center, transform: Matrix4.rotationY(math.pi), child: Icon(Icons.reply, size: 35, color: white)).onTap(() {
+              setState(() {
+                onShareTap(context, msg: "${TTAppName}: ${widget.post.url}");
+              });
+            }),
+            10.height,
             AnimatedBuilder(
               animation: animationController,
               child: Container(
@@ -242,41 +290,41 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
         return Stack(
           alignment: Alignment.bottomLeft,
           children: <Widget>[
-            GestureDetector(
-                onTap: () {
-                  setState(() {
-                    if (play) {
-                      _controller.pause();
-                      play = !play;
-                    } else {
-                      _controller.play();
-                      play = !play;
-                    }
-                  });
-                },
-                child: Container(
-                  width: context.width(),
-                  height: context.height(),
-                  child: YoutubePlayer(
-                    controller: _controller,
-                    showVideoProgressIndicator: true,
-                    progressIndicatorColor: Colors.amber,
-                    progressColors: const ProgressBarColors(
-                      playedColor: Colors.amber,
-                      handleColor: Colors.amberAccent,
-                    ),
-                    onReady: () {
-                      if (provider.getIsAdLoaded()) {
-                        _controller.pause();
-                      }
-                      _controller.addListener(listener);
-                    },
-                  ),
-
-                  // VideoPlayer(_controller),
-                )
-
-            ),
+            // GestureDetector(
+            //     onTap: () {
+            //       setState(() {
+            //         if (play) {
+            //           _controller.pause();
+            //           play = !play;
+            //         } else {
+            //           _controller.play();
+            //           play = !play;
+            //         }
+            //       });
+            //     },
+            //     child: Container(
+            //       width: context.width(),
+            //       height: context.height(),
+            //       child: YoutubePlayer(
+            //         controller: _controller,
+            //         showVideoProgressIndicator: true,
+            //         progressIndicatorColor: Colors.amber,
+            //         progressColors: const ProgressBarColors(
+            //           playedColor: Colors.amber,
+            //           handleColor: Colors.amberAccent,
+            //         ),
+            //         onReady: () {
+            //           if (provider.getIsAdLoaded()) {
+            //             _controller.pause();
+            //           }
+            //           _controller.addListener(listener);
+            //         },
+            //       ),
+            //
+            //       // VideoPlayer(_controller),
+            //     )
+            //
+            // ),
             _rightContent(),
             _bottomContent(),
           ],

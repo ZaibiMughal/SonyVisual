@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:short_video/models/edit_profile.dart';
 import 'package:short_video/models/post.dart';
 import 'package:short_video/models/user.dart';
@@ -24,7 +25,10 @@ class PostBloc{
 
   Future<NetworkServiceResponse<List<Post>>> actionIndex({int userId = 0}) async {
 
-    NetworkServiceResponse result = await RestClient.instance.request(url: API.postsByUser, method: Config.HTTP_GET, params: {'user_id' : userId});
+    NetworkServiceResponse result = await RestClient.instance.request(url: API.postsByUser, method: Config.HTTP_GET, params: {
+      'user_id' : userId,
+      'current_user_id': AppCurrentState.instance.getUserId()
+    });
 
     List<Post> posts = [];
 
@@ -92,5 +96,21 @@ class PostBloc{
         status: result.status,
         message: result.message);
   }
+
+
+  Future<NetworkServiceResponse<User>> actionUpdateFavoriteStatus(int userId, int videoId, int isFavorite) async {
+
+    NetworkServiceResponse result = await RestClient.instance.request(url: API.favoritePost, method: Config.HTTP_GET, params: {
+      "video_id" : videoId,
+      "user_id" : userId,
+      "is_favorite" : isFavorite,
+    });
+
+    return NetworkServiceResponse(
+        data: null,
+        status: result.status,
+        message: result.message);
+  }
+
 
 }

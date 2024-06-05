@@ -44,6 +44,15 @@ create table video_post(
       CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES sac_user(id)
 );
 
+create table video_favorite(
+       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+       user_id int not null,
+       video_id int UNSIGNED not null,
+       created TIMESTAMP DEFAULT now(),
+       CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES sac_user(id),
+       CONSTRAINT fk_video_id FOREIGN KEY(video_id) REFERENCES video_post(id)
+);
+
 
 create table posts(
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

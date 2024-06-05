@@ -13,6 +13,7 @@ class API {
   static const String posts = 'video-post';
   static const String postsByUser = 'video-post';
   static const String createPost = 'video-post/create';
+  static const String favoritePost = 'video-favorite/create';
   static const String updatePost = 'video-post/update';
   static const String deletePost = 'video-post/delete';
   static const String privacy = 'site/privacy-policy';

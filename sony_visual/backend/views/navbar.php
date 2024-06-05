@@ -38,6 +38,7 @@ $menuItems = [
 //        'visible' => Yii::$app->user->identity->isMasterUser()
 //    ],
     ['label' => 'Video Post', 'url' => Url::to('/video-post')],
+    ['label' => 'Favorite Video', 'url' => Url::to('/video-favorite')],
 
 
 ];

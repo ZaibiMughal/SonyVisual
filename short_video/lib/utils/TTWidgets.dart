@@ -197,9 +197,9 @@ BoxDecoration boxDecoration({double radius = 2, Color color = Colors.transparent
   );
 }
 
-void onShareTap(BuildContext context) async {
+void onShareTap(BuildContext context, {String? msg}) async {
   final RenderBox box = context.findRenderObject() as RenderBox;
-  Share.share(TTAppName, subject: '', sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+  Share.share(msg ?? TTAppName, subject: '', sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
 }
 
 Function(BuildContext, String) placeholderWidgetFn() => (_, s) => placeholderWidget();

@@ -502,6 +502,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $videos ?? [];
     }
 
+    public function getFavoriteVideos(){
+        $videos = VideoFavorite::findAll(['user_id' => $this->id]);
+        return $videos ?? [];
+    }
+
     public function toMap(){
         return [
             'id' => $this->id,

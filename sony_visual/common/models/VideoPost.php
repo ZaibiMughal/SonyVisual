@@ -101,8 +101,8 @@ class VideoPost extends \yii\db\ActiveRecord
         return "https://img.youtube.com/vi/$id/0.jpg";
     }
 
-    public function toMap(){
-        return [
+    public function toMap($currentUserId = 0){
+        $arr = [
             'id' => $this->id,
             'title' => $this->description,
             'description' => $this->description,
@@ -113,6 +113,14 @@ class VideoPost extends \yii\db\ActiveRecord
             'thumbnail' => $this->getThumbnail(),
             'category' => $this->category,
         ];
+
+        if($currentUserId){
+            $isFavoriteVideo = VideoFavorite::findOne(['video_id' => $this->id, 'user_id' => $currentUserId]);
+        }
+
+        return array_merge($arr,[
+            'is_favorite' => empty($isFavoriteVideo) ? 0 : 1,
+        ]);
     }
 
     public static function getReport($month){
