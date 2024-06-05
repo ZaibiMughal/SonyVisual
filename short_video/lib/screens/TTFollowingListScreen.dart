@@ -32,7 +32,7 @@ class TTFollowingListScreenState extends State<TTFollowingListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       appBar: ttAppBar(context, "Following") as PreferredSizeWidget?,
       body: Responsive(
         mobile: ListView.builder(

@@ -74,7 +74,7 @@ class TTSignUpScreenState extends State<TTSignUpScreen> {
     return Scaffold(
       appBar: appBarWidget('', showBack: true, textColor: Colors.white, color: Colors.transparent, systemUiOverlayStyle: SystemUiOverlayStyle.light,elevation: 0),
 
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Responsive(
@@ -147,12 +147,12 @@ class TTSignUpScreenState extends State<TTSignUpScreen> {
                               // TTOtpScreen().launch(context);
                             },
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                            color: ColorsConfig.p_color,
+                            color: ColorsConfig.btn_backgroundColor,
                             child: Text('Sign Up', style: primaryTextStyle(color: white))),
                       ),
 
                       // Container(
-                      //     decoration: boxDecorationWithRoundedCorners(borderRadius: BorderRadius.circular(4), backgroundColor: black, border: Border.all(color: Colors.white24, width: 1)),
+                      //     decoration: boxDecorationWithRoundedCorners(borderRadius: BorderRadius.circular(4), backgroundColor: TTBackgroundBlack, border: Border.all(color: Colors.white24, width: 1)),
                       //     padding: EdgeInsets.all(0),
                       //     margin: EdgeInsets.all(16),
                       //     child: Row(

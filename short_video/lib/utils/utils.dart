@@ -172,8 +172,8 @@ class Utils {
     final random = Random();
 
     // Showing interstitial ad randomly
-    int number = random.nextInt(3);
-    if (number >= 1) {
+    int number = random.nextInt(5);
+    if (number >= 3) {
       if (Utils.interstitialAd != null) {
         await Utils.loadInterstitialAd();
         await Utils.interstitialAd!.show();

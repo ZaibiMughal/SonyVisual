@@ -34,10 +34,9 @@ class AppCurrentState {
   User? getUser() {
     if(user == null){
       dynamic output = SharedStorage.get(Config.userStorageKey);
-
       if(output != null){
-        User temp = User();
-        user = temp.fromMap(json.decode(output));
+        user ??= User();
+        user!.fromMap(json.decode(output));
       }
     }
     return user;

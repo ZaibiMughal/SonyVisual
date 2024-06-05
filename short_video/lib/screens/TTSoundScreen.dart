@@ -38,7 +38,7 @@ class TTSoundScreenState extends State<TTSoundScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       appBar: ttAppBar(context, "", actions: [
         Transform(alignment: Alignment.center, transform: Matrix4.rotationY(math.pi), child: Icon(Icons.reply, size: 35, color: white)).onTap(() {
           toast("Share");
@@ -98,7 +98,7 @@ class TTSoundScreenState extends State<TTSoundScreen> {
                         ),
                         Container(
                           decoration: BoxDecoration(shape: BoxShape.circle, color: black, border: Border.all(color: white, width: 1)),
-                          child: CircleAvatar(radius: 10, backgroundColor: black, backgroundImage: AssetImage(mData.user)),
+                          child: CircleAvatar(radius: 10, backgroundColor: TTBackgroundBlack, backgroundImage: AssetImage(mData.user)),
                         )
                       ],
                     ),

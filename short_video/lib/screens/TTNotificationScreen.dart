@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:short_video/model/TTModel.dart';
 import 'package:short_video/screens/TTStoryScreen.dart';
+import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTDataProvider.dart';
 import 'package:short_video/utils/TTWidgets.dart';
 
@@ -33,7 +34,7 @@ class TTNotificationScreenState extends State<TTNotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       appBar: ttAppBar(context, "Notification", showBack: false) as PreferredSizeWidget?,
       body: Responsive(
         mobile: ListView.builder(

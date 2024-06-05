@@ -34,7 +34,7 @@ class TTAboutUsScreenState extends State<TTAboutUsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ttAppBar(context, "About us") as PreferredSizeWidget?,
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       body: Responsive(
         mobile: SingleChildScrollView(
           child: Column(
@@ -43,7 +43,8 @@ class TTAboutUsScreenState extends State<TTAboutUsScreen> {
               Text(TTAppName, style: primaryTextStyle(color: white)),
               16.height,
               Text("For more information please visit:", style: primaryTextStyle(color: white)),
-              Text("admin@${TTAppName.toLowerCase()}.com", style: primaryTextStyle(color: TTColorSerpent)),
+              16.height,
+              Text("admin@${TTAppName.toLowerCase()}.com", style: primaryTextStyle()),
               // 16.height,
               // Text("Client ID:", style: primaryTextStyle(color: white)),
               // Text("28375-64f658-452414474099", style: primaryTextStyle(color: white)),
@@ -52,7 +53,7 @@ class TTAboutUsScreenState extends State<TTAboutUsScreen> {
                 onTap: (){
                   Utils.launchExternalUrl(Uri.parse("https://admin.sonyvisual.com/site/privacy-policy"));
                 },
-                child: Text("Privacy Policy", style: primaryTextStyle(color: TTColorSerpent))),
+                child: Text("Privacy Policy", style: primaryTextStyle())),
             ],
           ).paddingAll(10),
         ),

@@ -20,17 +20,17 @@ import '../config/main_config.dart';
 import '../models/screen_error.dart';
 import 'TTErrorSection.dart';
 
-class TTHomeScreen extends StatefulWidget {
-  static String tag = '/TTHomeScreen';
+class TTHomeLoopScreen extends StatefulWidget {
+  static String tag = '/TTHomeLoopScreen';
   bool autoload;
 
-  TTHomeScreen({super.key, this.autoload = false});
+  TTHomeLoopScreen({super.key, this.autoload = false});
 
   @override
-  TTHomeScreenState createState() => TTHomeScreenState();
+  TTHomeLoopScreenState createState() => TTHomeLoopScreenState();
 }
 
-class TTHomeScreenState extends State<TTHomeScreen> {
+class TTHomeLoopScreenState extends State<TTHomeLoopScreen> {
   var mStoryList = getStoryData();
 
   PostBloc bloc = PostBloc();

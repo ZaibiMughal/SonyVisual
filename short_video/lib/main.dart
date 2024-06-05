@@ -6,6 +6,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:short_video/config/colors_config.dart';
 import 'package:short_video/providers/ad_provider.dart';
 import 'package:short_video/providers/connection_provider.dart';
 import 'package:short_video/providers/timer_provider.dart';
@@ -40,7 +41,7 @@ class _MyAppState extends State<MyApp> {
 
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        statusBarColor: Colors.black,
+        statusBarColor: Colors.transparent,
       ),
     );
   }
@@ -64,7 +65,7 @@ class _MyAppState extends State<MyApp> {
         title: 'SonyVisual',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: ColorsConfig.p_color),
           useMaterial3: true,
         ),
         home: TTSplashScreen(),

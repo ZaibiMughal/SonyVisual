@@ -71,7 +71,7 @@ class TTProfileScreenState extends State<TTProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //changeStatusColor(black);
+    print(posts[0].isFavorite);
 
     Widget mOption(var value, var label) {
       return Column(
@@ -83,83 +83,81 @@ class TTProfileScreenState extends State<TTProfileScreen> {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: ttAppBar(context, "Profile", showBack: widget.userId != null, actions: [
-          AppCurrentState.instance.getIsLoggedIn() == true  ? PopupMenuButton(
-            color: Colors.grey.shade200,
-            icon: Icon(
-              Icons.more_horiz,
-              color: white,
-            ),
-            onSelected: (dynamic value) {
-              if (value == "setting") {
-                TTSettingScreen().launch(context);
-              } else {
-                TTEditProfileScreen().launch(context);
-              }
-            },
-            itemBuilder: (context) {
-              List<PopupMenuEntry<Object>> list = [];
-              list.add(PopupMenuItem(child: Text("Settings", style: primaryTextStyle()), value: 'setting'));
-              list.add(PopupMenuItem(child: Text("Edit Profile", style: primaryTextStyle()), value: 'profile'));
-              return list;
-            },
-          ): SizedBox()
-        ]) as PreferredSizeWidget?,
-        body: Responsive(
-            mobile: DefaultTabController(
-          length: 1,
-          child: NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  expandedHeight: 250.0,
-                  floating: true,
-                  backgroundColor: black,
-                  pinned: true,
-                  automaticallyImplyLeading: false,
-                  bottom: TabBar(
-                    indicatorColor: Colors.blueAccent,
-                    // tabs: [Tab(icon: Icon(Icons.grid_on, color: white)), Tab(icon: Icon(Icons.favorite_border, color: white))],
-                    tabs: [Tab(icon: Icon(Icons.grid_on, color: white))],
-                  ),
-                  flexibleSpace: FlexibleSpaceBar(
-                    collapseMode: CollapseMode.parallax,
-                    background: Container(
-                      child: Column(
-                        children: <Widget>[
-                          8.height,
-                          Container(decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: Image.asset(TT_ic_logo, height: 80).cornerRadiusWithClipRRect(16)),
-                          10.height,
-                          Text(posts.isNotEmpty ? posts[0].username! : "SonyVisual", style: boldTextStyle(size: 18, color: white)),
-                        ],
-                      ),
+    return Scaffold(
+      backgroundColor: TTBackgroundBlack,
+      appBar: ttAppBar(context, "Profile", showBack: widget.userId != null, actions: [
+        AppCurrentState.instance.getIsLoggedIn() == true  ? PopupMenuButton(
+          color: Colors.grey.shade200,
+          icon: Icon(
+            Icons.more_horiz,
+            color: white,
+          ),
+          onSelected: (dynamic value) {
+            if (value == "setting") {
+              TTSettingScreen().launch(context);
+            } else {
+              TTEditProfileScreen().launch(context);
+            }
+          },
+          itemBuilder: (context) {
+            List<PopupMenuEntry<Object>> list = [];
+            list.add(PopupMenuItem(child: Text("Settings", style: primaryTextStyle()), value: 'setting'));
+            list.add(PopupMenuItem(child: Text("Edit Profile", style: primaryTextStyle()), value: 'profile'));
+            return list;
+          },
+        ): SizedBox()
+      ]) as PreferredSizeWidget?,
+      body: Responsive(
+          mobile: DefaultTabController(
+        length: 1,
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                expandedHeight: 250.0,
+                floating: true,
+                backgroundColor: TTBackgroundBlack,
+                pinned: true,
+                automaticallyImplyLeading: false,
+                bottom: TabBar(
+                  indicatorColor: Colors.blueAccent,
+                  // tabs: [Tab(icon: Icon(Icons.grid_on, color: white)), Tab(icon: Icon(Icons.favorite_border, color: white))],
+                  tabs: [Tab(icon: Icon(Icons.grid_on, color: white))],
+                ),
+                flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.parallax,
+                  background: Container(
+                    child: Column(
+                      children: <Widget>[
+                        8.height,
+                        Container(decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: Image.asset(TT_ic_logo, height: 80).cornerRadiusWithClipRRect(16)),
+                        10.height,
+                        Text(posts.isNotEmpty ? posts[0].username! : "SonyVisual", style: boldTextStyle(size: 18, color: white)),
+                      ],
                     ),
                   ),
                 ),
-              ];
-            },
-            body: response != null && (posts.isEmpty)
-                ? ErrorSection(
-                screenError: ScreenError(
-                    title: "sorry",
-                    message: response != null ? response!.message : "",
-                    icon: Icon(
-                      Icons.error_outline,
-                      size: 48,
-                      color: ColorsConfig.p_color,
-                    )))
-                : TabBarView(
-              // children: [TTProfileComponent(), TTProfileComponent()],
-              children: [TTProfileComponent(
-                posts: posts,
-              )],
-            ),
+              ),
+            ];
+          },
+          body: response != null && (posts.isEmpty)
+              ? ErrorSection(
+              screenError: ScreenError(
+                  title: "sorry",
+                  message: response != null ? response!.message : "",
+                  icon: Icon(
+                    Icons.error_outline,
+                    size: 48,
+                    color: ColorsConfig.p_color,
+                  )))
+              : TabBarView(
+            // children: [TTProfileComponent(), TTProfileComponent()],
+            children: [TTProfileComponent(
+              posts: posts,
+            )],
           ),
-        )),
-      ),
+        ),
+      )),
     );
   }
 }

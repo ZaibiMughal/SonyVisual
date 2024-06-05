@@ -3,6 +3,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:short_video/business_logic/app_state.dart';
 import 'package:short_video/screens/TTSignInScreen.dart';
 import 'package:short_video/storage/shared_storage.dart';
+import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTConstant.dart';
 import 'package:short_video/utils/TTImages.dart';
 
@@ -68,7 +69,7 @@ class TTSplashScreenState extends State<TTSplashScreen> with AfterLayoutMixin<TT
     //changeStatusColor(black);
 
     return Scaffold(
-      backgroundColor: black, 
+      backgroundColor: TTBackgroundBlack,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

@@ -36,11 +36,12 @@ class Config {
   static InputDecoration inputDecoration({String? labelText, String? hintText}) {
     return InputDecoration(
       labelText: labelText,
-      labelStyle: secondaryTextStyle(),
+      labelStyle: secondaryTextStyle().copyWith(decoration: TextDecoration.none),
       contentPadding: EdgeInsets.symmetric(horizontal: 5),
       hintText: hintText,
       hintStyle: secondaryTextStyle(),
       border: OutlineInputBorder(),
+      fillColor: white,
       alignLabelWithHint: true,
     );
   }

@@ -46,7 +46,7 @@ class TTSearchInfoScreenState extends State<TTSearchInfoScreen> {
     }
 
     return Scaffold(
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       appBar: ttAppBar(context, "#itelHaiToLifeMagical") as PreferredSizeWidget?,
       floatingActionButton: FloatingActionButton(
         backgroundColor: TTColorRed,
@@ -98,7 +98,7 @@ class TTSearchInfoScreenState extends State<TTSearchInfoScreen> {
                           ),
                           Container(
                             decoration: BoxDecoration(shape: BoxShape.circle, color: black, border: Border.all(color: white, width: 1)),
-                            child: CircleAvatar(radius: 10, backgroundColor: black, backgroundImage: AssetImage(mData.user)),
+                            child: CircleAvatar(radius: 10, backgroundColor: TTBackgroundBlack, backgroundImage: AssetImage(mData.user)),
                           )
                         ],
                       ),

@@ -99,7 +99,7 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ttAppBar(context, "Add Video", showBack: false) as PreferredSizeWidget?,
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
@@ -167,7 +167,7 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
                                 // TTOtpScreen().launch(context);
                               },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                              color: ColorsConfig.p_color,
+                              color: ColorsConfig.btn_backgroundColor,
                               child: Text('Add Video', style: primaryTextStyle(color: white))),
                         ),
                       ],

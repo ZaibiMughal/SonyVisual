@@ -34,7 +34,7 @@ class TTPickSongScreenState extends State<TTPickSongScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       appBar: ttAppBar(context, "Pick a song") as PreferredSizeWidget?,
       body: Responsive(
         mobile: Column(

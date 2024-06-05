@@ -10,6 +10,7 @@ import 'package:short_video/screens/TTSignInScreen.dart';
 import 'package:short_video/utils/TTColors.dart';
 
 import '../utils/utils.dart';
+import 'TTHomeLoopScreen.dart';
 import 'TTNotificationScreen.dart';
 import 'TTProfileScreen.dart';
 import 'TTSearchScreen.dart';
@@ -40,7 +41,7 @@ class TTDashboardScreenState extends State<TTDashboardScreen> {
       TTAddPostScreen(),
       TTProfileScreen(),
       // TTNotificationScreen(),
-      TTHomeScreen(autoload: true,),
+      TTHomeLoopScreen(autoload: true,),
     ];
 
     selectedIndex = widget.index ?? 1;
@@ -84,6 +85,7 @@ class TTDashboardScreenState extends State<TTDashboardScreen> {
       body: selectedIndex == 3 ? AppCurrentState.instance.getUserId() > 0 ? pages[selectedIndex] : TTSignINScreen() : pages[selectedIndex],
       bottomNavigationBar: selectedIndex != 6
           ? Container(
+        padding: EdgeInsets.only(top: 5),
               height: 100,
               color: black,
               child: Column(
@@ -99,6 +101,7 @@ class TTDashboardScreenState extends State<TTDashboardScreen> {
                       mBottomItem(Icons.loop, 4),
                     ],
                   ),
+                  SizedBox(height: 4,),
                   Visibility(
                     visible: Utils.bannerAd != null,
                     child: SizedBox(

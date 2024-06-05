@@ -180,7 +180,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
             //       children: <Widget>[
             //         // Container(
             //         //   decoration: BoxDecoration(shape: BoxShape.circle, color: black, border: Border.all(color: white, width: 1)),
-            //         //   child: CircleAvatar(radius: 20, backgroundColor: black, backgroundImage: AssetImage(widget.model!.profile)),
+            //         //   child: CircleAvatar(radius: 20, backgroundColor: TTBackgroundBlack, backgroundImage: AssetImage(widget.model!.profile)),
             //         // ),
             //         Align(
             //           alignment: Alignment.bottomCenter,
@@ -234,9 +234,9 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
                   String url = "";
                   if(Platform.isAndroid){
                     url = "https://play.google.com/store/apps/details?id=com.sonyplays.app" ;
-                    Application? app = await DeviceApps.getApp('com.frandroid.app');
+                    Application? app = await DeviceApps.getApp('com.sonyplays.app');
                     if(app != null){
-                     bool isAppOpened = await DeviceApps.openApp('com.frandroid.app');
+                     bool isAppOpened = await DeviceApps.openApp('com.sonyplays.app');
                      if(isAppOpened){
                        return;
                      }
@@ -290,41 +290,41 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
         return Stack(
           alignment: Alignment.bottomLeft,
           children: <Widget>[
-            // GestureDetector(
-            //     onTap: () {
-            //       setState(() {
-            //         if (play) {
-            //           _controller.pause();
-            //           play = !play;
-            //         } else {
-            //           _controller.play();
-            //           play = !play;
-            //         }
-            //       });
-            //     },
-            //     child: Container(
-            //       width: context.width(),
-            //       height: context.height(),
-            //       child: YoutubePlayer(
-            //         controller: _controller,
-            //         showVideoProgressIndicator: true,
-            //         progressIndicatorColor: Colors.amber,
-            //         progressColors: const ProgressBarColors(
-            //           playedColor: Colors.amber,
-            //           handleColor: Colors.amberAccent,
-            //         ),
-            //         onReady: () {
-            //           if (provider.getIsAdLoaded()) {
-            //             _controller.pause();
-            //           }
-            //           _controller.addListener(listener);
-            //         },
-            //       ),
-            //
-            //       // VideoPlayer(_controller),
-            //     )
-            //
-            // ),
+            GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (play) {
+                      _controller.pause();
+                      play = !play;
+                    } else {
+                      _controller.play();
+                      play = !play;
+                    }
+                  });
+                },
+                child: Container(
+                  width: context.width(),
+                  height: context.height(),
+                  child: YoutubePlayer(
+                    controller: _controller,
+                    showVideoProgressIndicator: true,
+                    progressIndicatorColor: Colors.amber,
+                    progressColors: const ProgressBarColors(
+                      playedColor: Colors.amber,
+                      handleColor: Colors.amberAccent,
+                    ),
+                    onReady: () {
+                      if (provider.getIsAdLoaded()) {
+                        _controller.pause();
+                      }
+                      _controller.addListener(listener);
+                    },
+                  ),
+
+                  // VideoPlayer(_controller),
+                )
+
+            ),
             _rightContent(),
             _bottomContent(),
           ],

@@ -64,7 +64,7 @@ class User extends Parent {
   fromMap(map) {
     id = map['id'];
     firstName = map['first_name'];
-    lastName = map['lastName'];
+    lastName = map['last_name'];
     email = map['email'];
     type = map['type'];
     url = 'https://admin.sonyvisual.com/images/logo.png';

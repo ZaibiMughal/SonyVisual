@@ -52,7 +52,7 @@ class TTStoryScreenState extends State<TTStoryScreen> with SingleTickerProviderS
     }
 
     return Scaffold(
-      backgroundColor: TTColorBlack,
+      backgroundColor: TTBackgroundBlack,
       body: SafeArea(
         child: Stack(
           children: <Widget>[

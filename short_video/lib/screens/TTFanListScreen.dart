@@ -32,7 +32,7 @@ class TTFanListScreenState extends State<TTFanListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       appBar: ttAppBar(context, "Top Fans") as PreferredSizeWidget?,
       body: Responsive(
         mobile: ListView.builder(

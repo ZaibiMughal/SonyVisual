@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class ColorsConfig {
   ColorsConfig._();
@@ -162,7 +163,7 @@ class ColorsConfig {
   }
 
   static get btn_backgroundColor {
-    return true ? l_s_btn_backgroundColor : d_s_btn_backgroundColor;
+    return true ? black : d_s_btn_backgroundColor;
   }
 
   static get boxBackgroundColor {

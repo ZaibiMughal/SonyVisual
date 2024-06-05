@@ -30,7 +30,7 @@ class TTFeedbackScreenState extends State<TTFeedbackScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ttAppBar(context, "Feedback") as PreferredSizeWidget?,
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       body: Responsive(
         mobile: SingleChildScrollView(
           child: Column(

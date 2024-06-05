@@ -85,7 +85,7 @@ class TTUpdatePostScreenState extends State<TTUpdatePostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ttAppBar(context, "Update Video", showBack: true) as PreferredSizeWidget?,
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
@@ -145,7 +145,7 @@ class TTUpdatePostScreenState extends State<TTUpdatePostScreen> {
                                 // TTOtpScreen().launch(context);
                               },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                              color: ColorsConfig.p_color,
+                              color: ColorsConfig.btn_backgroundColor,
                               child: Text('Update Video', style: primaryTextStyle(color: white))),
                         ),
                       ],

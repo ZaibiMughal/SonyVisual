@@ -33,7 +33,7 @@ class TTChooseLanguageScreenState extends State<TTChooseLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       appBar: ttAppBar(context, "Choose Language") as PreferredSizeWidget?,
       body: Responsive(
         mobile: Column(
@@ -88,7 +88,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
         padding: const EdgeInsets.all(2.0),
         child: ChoiceChip(
           selectedColor: TTColorRed,
-          backgroundColor: black,
+          backgroundColor: TTBackgroundBlack,
           shape: StadiumBorder(
             side: BorderSide(color: Colors.white24),
           ),

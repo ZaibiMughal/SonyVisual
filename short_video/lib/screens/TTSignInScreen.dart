@@ -79,10 +79,8 @@ class TTSignINScreenState extends State<TTSignINScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // dynamic output = SharedStorage.get(Config.userStorageKey);
-    // print(output);
     return Scaffold(
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       body: SafeArea(
         child: Responsive(
           mobile: Container(
@@ -105,7 +103,7 @@ class TTSignINScreenState extends State<TTSignINScreen> {
                       textStyle: Config.textStyle,
                       textFieldType: TextFieldType.EMAIL,
                       decoration: Config.inputDecoration(labelText: "Email"),
-                      nextFocus: passFocus,
+                      nextFocus: emailFocus,
                       errorThisFieldRequired: errorThisFieldRequired,
                       errorInvalidEmail: "Email is invalid",
                       autoFillHints: [AutofillHints.email],
@@ -131,7 +129,7 @@ class TTSignINScreenState extends State<TTSignINScreen> {
                         GestureDetector(
                             child: Text(
                               "Sign Up",
-                              style: TextStyle(fontSize: 18.0, decoration: TextDecoration.underline, color: ColorsConfig.p_textColor),
+                              style: TextStyle(fontSize: 18.0, color: ColorsConfig.p_textColor),
                             ).paddingLeft(4),
                             onTap: () {
                               TTSignUpScreen().launch(context);
@@ -147,12 +145,12 @@ class TTSignINScreenState extends State<TTSignINScreen> {
                             // TTOtpScreen().launch(context);
                           },
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                          color: ColorsConfig.p_color,
+                          color: ColorsConfig.btn_backgroundColor,
                           child: Text('Sign In', style: primaryTextStyle(color: white))),
                     ),
 
                     // Container(
-                    //     decoration: boxDecorationWithRoundedCorners(borderRadius: BorderRadius.circular(4), backgroundColor: black, border: Border.all(color: Colors.white24, width: 1)),
+                    //     decoration: boxDecorationWithRoundedCorners(borderRadius: BorderRadius.circular(4), backgroundColor: TTBackgroundBlack, border: Border.all(color: Colors.white24, width: 1)),
                     //     padding: EdgeInsets.all(0),
                     //     margin: EdgeInsets.all(16),
                     //     child: Row(

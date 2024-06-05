@@ -69,65 +69,69 @@ class TTEditProfileScreenState extends State<TTEditProfileScreen> {
     return Scaffold(
       appBar: ttAppBar(context, "Profile", actions: [
       ]) as PreferredSizeWidget?,
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       body: Responsive(
-        mobile: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                16.height,
-                Container(decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: Image.asset(TT_ic_logo, height: 80).cornerRadiusWithClipRRect(16)).center(),
-                // CircleAvatar(backgroundImage: AssetImage(TT_ic_guest2), radius: 45).center(),
-                // 10.height,
-                // Text('Add Photo', style: boldTextStyle(color: ColorsConfig.p_color, size: 18)).center(),
-                16.height,
-                AppTextField(
-                  controller: firstNameController,
-                  textStyle: Config.textStyle,
-                  textFieldType: TextFieldType.NAME,
-                  decoration: Config.inputDecoration(labelText: "First Name"),
-                  nextFocus: firstNameFocus,
-                  errorThisFieldRequired: errorThisFieldRequired,
-                  errorInvalidEmail: "First name is invalid",
-                  autoFillHints: [AutofillHints.name],
-                ),
-                16.height,
-                AppTextField(
-                  controller: lastNameController,
-                  textStyle: Config.textStyle,
-                  textFieldType: TextFieldType.NAME,
-                  decoration: Config.inputDecoration(labelText: "Last Name"),
-                  nextFocus: lastNameFocus,
-                  errorThisFieldRequired: errorThisFieldRequired,
-                  errorInvalidEmail: "Last Name is invalid",
-                  autoFillHints: [AutofillHints.name],
-                ),
-                16.height,
-                AppTextField(
-                  controller: emailController,
-                  textStyle: Config.textStyle,
-                  textFieldType: TextFieldType.EMAIL,
-                  decoration: Config.inputDecoration(labelText: "Email"),
-                  nextFocus: emailFocus,
-                  errorThisFieldRequired: errorThisFieldRequired,
-                  errorInvalidEmail: "Email is invalid",
-                  autoFillHints: [AutofillHints.email],
-                ),
-                10.height,
-                Container(
-                  width: double.infinity,
-                  child: MaterialButton(
-                      onPressed: () {
-                        signUp();
-                        // TTOtpScreen().launch(context);
-                      },
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                      color: ColorsConfig.p_color,
-                      child: Text('Update', style: primaryTextStyle(color: white))),
-                ),
-              ],
+        mobile: Container(
+          padding: EdgeInsets.all(0),
+          margin: EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  16.height,
+                  Container(decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: Image.asset(TT_ic_logo, height: 80).cornerRadiusWithClipRRect(16)).center(),
+                  // CircleAvatar(backgroundImage: AssetImage(TT_ic_guest2), radius: 45).center(),
+                  // 10.height,
+                  // Text('Add Photo', style: boldTextStyle(color: ColorsConfig.p_color, size: 18)).center(),
+                  16.height,
+                  AppTextField(
+                    controller: firstNameController,
+                    textStyle: Config.textStyle,
+                    textFieldType: TextFieldType.NAME,
+                    decoration: Config.inputDecoration(labelText: "First Name"),
+                    nextFocus: firstNameFocus,
+                    errorThisFieldRequired: errorThisFieldRequired,
+                    errorInvalidEmail: "First name is invalid",
+                    autoFillHints: [AutofillHints.name],
+                  ),
+                  16.height,
+                  AppTextField(
+                    controller: lastNameController,
+                    textStyle: Config.textStyle,
+                    textFieldType: TextFieldType.NAME,
+                    decoration: Config.inputDecoration(labelText: "Last Name"),
+                    nextFocus: lastNameFocus,
+                    errorThisFieldRequired: errorThisFieldRequired,
+                    errorInvalidEmail: "Last Name is invalid",
+                    autoFillHints: [AutofillHints.name],
+                  ),
+                  16.height,
+                  AppTextField(
+                    controller: emailController,
+                    textStyle: Config.textStyle,
+                    textFieldType: TextFieldType.EMAIL,
+                    decoration: Config.inputDecoration(labelText: "Email"),
+                    nextFocus: emailFocus,
+                    errorThisFieldRequired: errorThisFieldRequired,
+                    errorInvalidEmail: "Email is invalid",
+                    autoFillHints: [AutofillHints.email],
+                  ),
+                  10.height,
+                  Container(
+                    width: double.infinity,
+                    child: MaterialButton(
+                        onPressed: () {
+                          signUp();
+                          // TTOtpScreen().launch(context);
+                        },
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        color: ColorsConfig.btn_backgroundColor,
+                        child: Text('Update', style: primaryTextStyle(color: white))),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

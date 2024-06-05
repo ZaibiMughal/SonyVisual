@@ -75,7 +75,7 @@ class TTSettingScreenState extends State<TTSettingScreen> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: black,
+        backgroundColor: TTBackgroundBlack,
         appBar: ttAppBar(context, "Settings") as PreferredSizeWidget?,
         body: Responsive(
           mobile: SingleChildScrollView(

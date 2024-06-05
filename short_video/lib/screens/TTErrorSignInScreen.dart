@@ -31,7 +31,7 @@ class TTErrorSignInScreenState extends State<TTErrorSignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: black,
+      backgroundColor: TTBackgroundBlack,
       body: Responsive(
         mobile: Stack(
           children: [
