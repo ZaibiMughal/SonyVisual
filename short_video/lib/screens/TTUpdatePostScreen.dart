@@ -146,7 +146,7 @@ class TTUpdatePostScreenState extends State<TTUpdatePostScreen> {
                               },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                               color: ColorsConfig.btn_backgroundColor,
-                              child: Text('Update Video', style: primaryTextStyle(color: white))),
+                              child: Text('Update Video')),
                         ),
                       ],
                     ).center(),

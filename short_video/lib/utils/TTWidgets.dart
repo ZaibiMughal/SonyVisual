@@ -6,6 +6,8 @@ import 'package:short_video/config/colors_config.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTConstant.dart';
 
+import 'TTImages.dart';
+
 Widget dot() {
   return Container(
     height: 7,
@@ -149,9 +151,10 @@ class PinEntryTextFieldState extends State<PinEntryTextField> {
   }
 }
 
-Widget ttAppBar(BuildContext context, String title, {List<Widget>? actions, bool showBack = true, Color color = black, Color? iconColor = white}) {
+Widget ttAppBar(BuildContext context, String title, {List<Widget>? actions, bool showBack = true, Color color = black, Color? iconColor = white, bool? centerLogo}) {
   return AppBar(
     automaticallyImplyLeading: false,
+    toolbarHeight: centerLogo != null ? 100 : AppBarTheme.of(context).toolbarHeight,
     backgroundColor: color,
     centerTitle: true,
     leading: showBack
@@ -162,7 +165,11 @@ Widget ttAppBar(BuildContext context, String title, {List<Widget>? actions, bool
             icon: Icon(Icons.arrow_back_ios, color: iconColor ?? null),
           )
         : null,
-    title: Text(title, style: boldTextStyle(color: white, size: 18), maxLines: 1),
+    title: centerLogo == true ? Container(
+        decoration: boxDecorationWithRoundedCorners(
+            borderRadius: radius(16)),
+        child: Image.asset(TT_ic_logo, height: 80)
+            .cornerRadiusWithClipRRect(16)).center() : Text(title, style: boldTextStyle(color: white, size: 18), maxLines: 1),
     actions: actions,
   );
 }

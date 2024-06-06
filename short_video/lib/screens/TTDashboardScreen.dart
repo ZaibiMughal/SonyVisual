@@ -55,6 +55,13 @@ class TTDashboardScreenState extends State<TTDashboardScreen> {
     if (mounted) super.setState(fn);
   }
 
+
+  @override
+  void dispose() {
+    Utils.bannerAd!.dispose();
+    super.dispose();
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       selectedIndex = index;
@@ -74,7 +81,7 @@ class TTDashboardScreenState extends State<TTDashboardScreen> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: selectedIndex == pos ? ColorsConfig.p_color : white.withOpacity(0.7), size: 30).center(),
+            Icon(icon, color: selectedIndex == pos ? ColorsConfig.s_color : white.withOpacity(0.55), size: 30).center(),
             4.height,
             selectedIndex == pos ? Container(decoration: boxDecorationWithShadow(borderRadius: radius(10), backgroundColor: ColorsConfig.p_color), height: 3, width: 25) : SizedBox()
           ],

@@ -40,7 +40,15 @@ class Config {
       contentPadding: EdgeInsets.symmetric(horizontal: 5),
       hintText: hintText,
       hintStyle: secondaryTextStyle(),
-      border: OutlineInputBorder(),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: ColorsConfig.p_color,),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: ColorsConfig.p_color,),
+      ),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: ColorsConfig.p_color,),
+      ),
       fillColor: white,
       alignLabelWithHint: true,
     );
@@ -62,4 +70,9 @@ class Config {
   static const String iOSAdMobId = 'ca-app-pub-7617934641401276~9607996786';
   static const String iOSAdMobBannerUnitId = 'ca-app-pub-3940256099942544/2934735716';
   static const String iOSAdMobInterstitialUnitId = 'ca-app-pub-3940256099942544/4411468910';
+
+
+  static const androidAppUrl = "https://play.google.com/store/apps/details?id=com.sonyvisual.apps";
+  static const appleAppUrl = "https://apps.apple.com/us/app/sonyvisual/id6502907038";
+
 }

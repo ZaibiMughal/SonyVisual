@@ -111,6 +111,7 @@ class TTSignINScreenState extends State<TTSignINScreen> {
                     16.height,
                     AppTextField(
                       controller: passwordController,
+                      suffixIconColor: ColorsConfig.btn_textColor,
                       textStyle: Config.textStyle,
                       textFieldType: TextFieldType.PASSWORD,
                       focus: passFocus,
@@ -142,11 +143,10 @@ class TTSignINScreenState extends State<TTSignINScreen> {
                       child: MaterialButton(
                           onPressed: () {
                             signIn();
-                            // TTOtpScreen().launch(context);
                           },
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                           color: ColorsConfig.btn_backgroundColor,
-                          child: Text('Sign In', style: primaryTextStyle(color: white))),
+                          child: Text('Sign In')),
                     ),
 
                     // Container(

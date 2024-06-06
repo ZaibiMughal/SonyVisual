@@ -71,8 +71,6 @@ class TTProfileScreenState extends State<TTProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(posts[0].isFavorite);
-
     Widget mOption(var value, var label) {
       return Column(
         children: [
@@ -120,7 +118,7 @@ class TTProfileScreenState extends State<TTProfileScreen> {
                 pinned: true,
                 automaticallyImplyLeading: false,
                 bottom: TabBar(
-                  indicatorColor: Colors.blueAccent,
+                  indicatorColor: ColorsConfig.p_color,
                   // tabs: [Tab(icon: Icon(Icons.grid_on, color: white)), Tab(icon: Icon(Icons.favorite_border, color: white))],
                   tabs: [Tab(icon: Icon(Icons.grid_on, color: white))],
                 ),

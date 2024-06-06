@@ -117,7 +117,7 @@ class TTProfileComponentState extends State<TTProfileComponent> {
                     if (value == "edit") {
                       TTUpdatePostScreen(post: widget.posts[index],).launch(context);
                     } else {
-                      bool? res = await showConfirmDialog(context, 'Are you sure, you want to delete?');
+                      bool? res = await showConfirmDialog(context, 'Are you sure, you want to delete?', buttonColor: Colors.black);
                       if (res ?? false) {
                         bool result = await delete(widget.posts[index].id!);
                         if(result){

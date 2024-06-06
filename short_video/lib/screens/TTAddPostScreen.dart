@@ -168,7 +168,7 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
                               },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                               color: ColorsConfig.btn_backgroundColor,
-                              child: Text('Add Video', style: primaryTextStyle(color: white))),
+                              child: Text('Add Video')),
                         ),
                       ],
                     ).center(),

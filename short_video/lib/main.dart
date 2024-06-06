@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
         title: 'SonyVisual',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: ColorsConfig.p_color),
+          colorScheme: ColorScheme.fromSeed(seedColor: ColorsConfig.p_color, primary: ColorsConfig.p_color),
           useMaterial3: true,
         ),
         home: TTSplashScreen(),

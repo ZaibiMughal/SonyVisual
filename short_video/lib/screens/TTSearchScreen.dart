@@ -76,8 +76,8 @@ class TTSearchScreenState extends State<TTSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
           backgroundColor: TTBackgroundBlack,
-          body: Padding(
-            padding: const EdgeInsets.only(top: 20),
+          appBar: ttAppBar(context,"", showBack: false, color: Colors.transparent, centerLogo: true) as PreferredSizeWidget?,
+          body: SafeArea(
             child: Responsive(
                 mobile: response != null && (posts.isEmpty)
                     ? ErrorSection(
@@ -91,12 +91,6 @@ class TTSearchScreenState extends State<TTSearchScreen> {
                   )))
                     : Column(
               children: [
-                Container(
-                        decoration: boxDecorationWithRoundedCorners(
-                            borderRadius: radius(16)),
-                        child: Image.asset(TT_ic_logo, height: 80)
-                            .cornerRadiusWithClipRRect(16))
-                    .center(),
                 16.height,
                 GridView.builder(
                   scrollDirection: Axis.vertical,

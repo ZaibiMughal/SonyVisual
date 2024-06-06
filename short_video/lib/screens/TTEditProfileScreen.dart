@@ -128,7 +128,7 @@ class TTEditProfileScreenState extends State<TTEditProfileScreen> {
                         },
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                         color: ColorsConfig.btn_backgroundColor,
-                        child: Text('Update', style: primaryTextStyle(color: white))),
+                        child: Text('Update')),
                   ),
                 ],
               ),

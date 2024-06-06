@@ -148,7 +148,7 @@ class TTSignUpScreenState extends State<TTSignUpScreen> {
                             },
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                             color: ColorsConfig.btn_backgroundColor,
-                            child: Text('Sign Up', style: primaryTextStyle(color: white))),
+                            child: Text('Sign Up')),
                       ),
 
                       // Container(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:short_video/business_logic/app_state.dart';
 import 'package:short_video/business_logic/bloc/user_bloc.dart';
+import 'package:short_video/config/colors_config.dart';
 import 'package:short_video/screens/TTChooseLanguageScreen.dart';
 import 'package:short_video/screens/TTDashboardScreen.dart';
 import 'package:short_video/screens/TTFeedbackScreen.dart';
@@ -142,14 +143,14 @@ class TTSettingScreenState extends State<TTSettingScreen> {
                 }),
                 Divider(color: Colors.white24).paddingOnly(left: 16, right: 16),
                 mOption(Icons.logout, "Logout").onTap(() async {
-                  bool? res = await showConfirmDialog(context, 'Do you want to logout?');
+                  bool? res = await showConfirmDialog(context, 'Do you want to logout?', buttonColor: Colors.black);
                   if (res ?? false) {
                     AppCurrentState.instance.logout();
                     TTSignINScreen().launch(context, isNewTask: true);
                   }
                 }),
                 mOption(Icons.delete, "Delete", color: redColor).onTap(() async {
-                  bool? res = await showConfirmDialog(context, 'Do you want to delete this account?');
+                  bool? res = await showConfirmDialog(context, 'Do you want to delete this account?', buttonColor: Colors.black);
                   if (res ?? false) {
                     bool result = await delete();
                     if(result) {

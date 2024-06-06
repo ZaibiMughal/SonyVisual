@@ -12,9 +12,9 @@ class ColorsConfig {
   /// d => Dark
 
   // Main Application UI Colors
-  static const p_l_color = Color(0xff00B2CA);
+  static const p_l_color = Color(0xffD1D1D1);
   static const p_d_color = Colors.black;
-  static const s_l_color = Colors.black87;
+  static const s_l_color = Colors.white;
   static const s_d_color = Colors.grey;
 
   static get p_color {
@@ -86,7 +86,7 @@ class ColorsConfig {
   static const s_d_borderColor = Colors.blue;
 
   static get p_borderColor {
-    return true ? p_l_borderColor : p_d_borderColor;
+    return true ? Color(0xffD1D1D1) : p_d_borderColor;
   }
 
   static get s_borderColor {
@@ -163,7 +163,11 @@ class ColorsConfig {
   }
 
   static get btn_backgroundColor {
-    return true ? black : d_s_btn_backgroundColor;
+    return true ? Color(0xffD1D1D1) : d_s_btn_backgroundColor;
+  }
+
+  static get btn_textColor {
+    return true ? Color(0xffffffff) : d_s_btn_backgroundColor;
   }
 
   static get boxBackgroundColor {

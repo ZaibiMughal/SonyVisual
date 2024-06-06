@@ -194,7 +194,6 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
             IconButton(
                 icon: Icon(Icons.favorite_outline, size: 28, color: widget.post.isFavorite! == 1 ? redColor : white),
                 onPressed: () async {
-
                   if(AppCurrentState.instance.getIsLoggedIn() == false){
                     return TTSignINScreen(goBack: true,).launch(context);
                   }
@@ -211,7 +210,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
             IconButton(
                 icon: Icon(Icons.shopping_bag_outlined, size: 28, color: white),
                 onPressed: () async {
-
+                  if (_controller.value.isPlaying) _controller.pause();
                   String url = "";
                   if(Platform.isAndroid){
                     url = "https://play.google.com/store/apps/details?id=com.Clorop.Llc" ;
@@ -231,6 +230,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
             IconButton(
                 icon: Icon(Icons.radio_outlined, size: 25, color: white),
                 onPressed: () async {
+                  if (_controller.value.isPlaying) _controller.pause();
                   String url = "";
                   if(Platform.isAndroid){
                     url = "https://play.google.com/store/apps/details?id=com.sonyplays.app" ;
@@ -256,7 +256,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
             10.height,
             Transform(alignment: Alignment.center, transform: Matrix4.rotationY(math.pi), child: Icon(Icons.reply, size: 35, color: white)).onTap(() {
               setState(() {
-                onShareTap(context, msg: "${TTAppName}: ${widget.post.url}");
+                onShareTap(context, msg: "Hey, I am watching shorts on Sony Plays\n ${isIOS ? Config.appleAppUrl : Config.androidAppUrl}");
               });
             }),
             10.height,
