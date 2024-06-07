@@ -49,6 +49,7 @@ class Post extends Parent {
   String? username;
   String? thumbnail;
   int? isFavorite;
+  int? totalLikes;
 
   Post({
     this.id,
@@ -58,7 +59,8 @@ class Post extends Parent {
     this.userId,
     this.username,
     this.thumbnail,
-    this.isFavorite
+    this.isFavorite,
+    this.totalLikes
   });
 
 
@@ -84,6 +86,7 @@ class Post extends Parent {
       'user_id' : userId,
       'thumbnail' : thumbnail,
       'is_favorite' : isFavorite,
+      'total_likes': totalLikes
     };
   }
 
@@ -97,5 +100,6 @@ class Post extends Parent {
     username = map['username'];
     thumbnail = map['thumbnail'];
     isFavorite = map['is_favorite'];
+    totalLikes = map['total_likes'];
   }
 }

@@ -75,7 +75,7 @@ class TTProfileComponentState extends State<TTProfileComponent> {
               child: GestureDetector(
                 onTap: () {
 
-                  Post post = Post(id: widget.posts[index].id, title: widget.posts[index].title, description: widget.posts[index].description, url: widget.posts[index].url, thumbnail: widget.posts[index].thumbnail, userId: widget.posts[index].userId, username: widget.posts[index].username, isFavorite: widget.posts[index].isFavorite);
+                  Post post = Post(id: widget.posts[index].id, title: widget.posts[index].title, description: widget.posts[index].description, url: widget.posts[index].url, thumbnail: widget.posts[index].thumbnail, userId: widget.posts[index].userId, username: widget.posts[index].username, isFavorite: widget.posts[index].isFavorite, totalLikes: widget.posts[index].totalLikes);
                   List<Post> temp = [];
                   temp.addAll(widget.posts);
 

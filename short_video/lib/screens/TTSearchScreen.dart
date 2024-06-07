@@ -100,7 +100,7 @@ class TTSearchScreenState extends State<TTSearchScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        Post post = Post(id: posts[index].id, title: posts[index].title, description: posts[index].description, url: posts[index].url, thumbnail: posts[index].thumbnail, userId: posts[index].userId, username: posts[index].username, isFavorite: posts[index].isFavorite);
+                        Post post = Post(id: posts[index].id, title: posts[index].title, description: posts[index].description, url: posts[index].url, thumbnail: posts[index].thumbnail, userId: posts[index].userId, username: posts[index].username, isFavorite: posts[index].isFavorite, totalLikes: posts[index].totalLikes);
                         List<Post> temp = [];
                         temp.addAll(posts);
 

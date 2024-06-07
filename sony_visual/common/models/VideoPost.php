@@ -102,6 +102,8 @@ class VideoPost extends \yii\db\ActiveRecord
     }
 
     public function toMap($currentUserId = 0){
+        $totalLikes = VideoFavorite::find()->where(['video_id' => $this->id])->count();
+
         $arr = [
             'id' => $this->id,
             'title' => $this->description,
@@ -112,6 +114,7 @@ class VideoPost extends \yii\db\ActiveRecord
             'url' => $this->url,
             'thumbnail' => $this->getThumbnail(),
             'category' => $this->category,
+            'total_likes' => $totalLikes
         ];
 
         if($currentUserId){

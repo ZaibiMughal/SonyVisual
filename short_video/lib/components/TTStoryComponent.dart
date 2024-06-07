@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:device_apps/device_apps.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -191,22 +192,40 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
             //   ),
             // ),
             16.height,
-            IconButton(
-                icon: Icon(Icons.favorite_outline, size: 28, color: widget.post.isFavorite! == 1 ? redColor : white),
-                onPressed: () async {
-                  if(AppCurrentState.instance.getIsLoggedIn() == false){
-                    return TTSignINScreen(goBack: true,).launch(context);
-                  }
+            Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                IconButton(
+                  padding: EdgeInsets.zero,
+                    icon: Icon(Icons.favorite_outline, size: 28, color: widget.post.isFavorite! == 1 ? redColor : white),
+                    onPressed: () async {
+                      if(AppCurrentState.instance.getIsLoggedIn() == false){
+                        return TTSignINScreen(goBack: true,).launch(context);
+                      }
 
-                  int favValue = widget.post.isFavorite! == 0 ? 1 : 0;
-                  NetworkServiceResponse response = await postBloc.actionUpdateFavoriteStatus(AppCurrentState.instance.getUserId(), widget.post.id!, favValue);
-                  if(response.status == Status.Error){
-                    toast("Can't like this video, please try again later");
-                  } else {
-                    widget.post.isFavorite = favValue;
-                    setState(() { });
-                  }
-                }),
+                      int favValue = widget.post.isFavorite! == 0 ? 1 : 0;
+                      NetworkServiceResponse response = await postBloc.actionUpdateFavoriteStatus(AppCurrentState.instance.getUserId(), widget.post.id!, favValue);
+                      if(response.status == Status.Error){
+                        toast("Can't like this video, please try again later");
+                      } else {
+                        widget.post.isFavorite = favValue;
+                        if(favValue == 1){
+                          widget.post.totalLikes = widget.post.totalLikes! + 1;
+                        } else {
+                          widget.post.totalLikes = widget.post.totalLikes! - 1;
+                        }
+                        setState(() { });
+                      }
+                    }),
+                Positioned(
+                  bottom: -25,
+                    child: SizedBox(
+                      height: 40,
+                        child: Text(widget.post.totalLikes!.toString(), style: TextStyle(color: white),)),
+                )
+              ],
+            ),
+            SizedBox(height: 10,),
             IconButton(
                 icon: Icon(Icons.shopping_bag_outlined, size: 28, color: white),
                 onPressed: () async {
