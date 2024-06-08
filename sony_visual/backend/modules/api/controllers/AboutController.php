@@ -10,7 +10,7 @@ use yii\web\Controller;
 /**
  * About controller for the `api` module
  */
-class AboutController extends Controller
+class AboutController extends BaseController
 {
     /**
      * Renders the index view for the module
@@ -36,10 +36,10 @@ class AboutController extends Controller
     {
         $about = About::find()->one();
 
-        return json_encode([
+        return [
             'status' => true,
             'data' => $about == null ? null : $about->toMap(),
             'messages' => $about != null ? ['Success'] : ['No about content found!']
-        ]);
+        ];
     }
 }

@@ -50,6 +50,7 @@ class Post extends Parent {
   String? thumbnail;
   int? isFavorite;
   int? totalLikes;
+  String? userThumbnail;
 
   Post({
     this.id,
@@ -60,7 +61,8 @@ class Post extends Parent {
     this.username,
     this.thumbnail,
     this.isFavorite,
-    this.totalLikes
+    this.totalLikes,
+    this.userThumbnail,
   });
 
 
@@ -86,7 +88,8 @@ class Post extends Parent {
       'user_id' : userId,
       'thumbnail' : thumbnail,
       'is_favorite' : isFavorite,
-      'total_likes': totalLikes
+      'total_likes': totalLikes,
+      'user_thumbnail': userThumbnail
     };
   }
 
@@ -101,5 +104,10 @@ class Post extends Parent {
     thumbnail = map['thumbnail'];
     isFavorite = map['is_favorite'];
     totalLikes = map['total_likes'];
+    userThumbnail = map['user_thumbnail'];
+  }
+
+  getUserImage(){
+    return userThumbnail ?? "https://admin.sonyvisual.com/images/logo.png";
   }
 }

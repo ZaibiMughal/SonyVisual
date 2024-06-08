@@ -15,7 +15,7 @@ use yii\web\Controller;
 /**
  * Contact controller for the `api` module
  */
-class ContactController extends Controller
+class ContactController extends BaseController
 {
     /**
      * Renders the index view for the module

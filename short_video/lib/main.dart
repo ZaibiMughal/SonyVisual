@@ -12,6 +12,10 @@ import 'package:short_video/providers/connection_provider.dart';
 import 'package:short_video/providers/timer_provider.dart';
 import 'package:short_video/screens/TTSplashScreen.dart';
 
+
+// Declare a RouteObserver for the app
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 void main() async {
 
   HttpOverrides.global = MyHttpOverrides();
@@ -63,6 +67,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         title: 'SonyVisual',
+        navigatorObservers: [routeObserver],
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: ColorsConfig.p_color, primary: ColorsConfig.p_color),

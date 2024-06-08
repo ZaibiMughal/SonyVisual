@@ -62,14 +62,14 @@ class Config {
   static TextStyle textStyle = TextStyle(color: ColorsConfig.p_textColor);
 
 
-  static const String androidAdMobId = 'ca-app-pub-3940256099942544~3347511713';
+  static const String androidAdMobId = 'ca-app-pub-5751702786003592~1522460809';
   static const String androidAdMobBannerUnitId =
-      'ca-app-pub-3940256099942544/6300978111';
+      'ca-app-pub-5751702786003592/8405780969';
   static const String androidAdMobInterstitialUnitId =
-      'ca-app-pub-3940256099942544/1033173712';
-  static const String iOSAdMobId = 'ca-app-pub-7617934641401276~9607996786';
-  static const String iOSAdMobBannerUnitId = 'ca-app-pub-3940256099942544/2934735716';
-  static const String iOSAdMobInterstitialUnitId = 'ca-app-pub-3940256099942544/4411468910';
+      'ca-app-pub-5751702786003592/4829783449';
+  static const String iOSAdMobId = 'ca-app-pub-5751702786003592~6474871751';
+  static const String iOSAdMobBannerUnitId = 'ca-app-pub-5751702786003592/8262209107';
+  static const String iOSAdMobInterstitialUnitId = 'ca-app-pub-5751702786003592/6949127433';
 
 
   static const androidAppUrl = "https://play.google.com/store/apps/details?id=com.sonyvisual.apps";

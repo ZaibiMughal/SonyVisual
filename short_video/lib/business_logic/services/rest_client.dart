@@ -101,8 +101,7 @@ class RestClient {
           },
         );
       }
-      dynamic map = json.decode(_response!.data);
-      return NetworkServiceResponse.fromJson(map);
+      return NetworkServiceResponse.fromJson(_response!.data);
     } on DioError catch (e) {
       print(e.error);
       return NetworkServiceResponse(

@@ -8,8 +8,8 @@ class NetworkServiceResponse<T> {
   NetworkServiceResponse({required this.data, required this.status, required this.message});
 
   NetworkServiceResponse.fromJson(Map json)
-      : data = json['data'],
-        status = json['status'] ? Status.Done : Status.Error,
-        message = (json["messages"] as List).join("\n");
+      : data = json['data'] ?? null,
+        status = json.containsKey('status') ? json['status'] ? Status.Done : Status.Error : Status.Error,
+        message = json.containsKey('messages') ? (json["messages"] as List).join("\n") : "Something went wrong";
 
 }

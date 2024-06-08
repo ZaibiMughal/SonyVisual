@@ -15,7 +15,7 @@ use yii\web\Response;
 /**
  * Default controller for the `api` module
  */
-class VideoFavoriteController extends Controller
+class VideoFavoriteController extends BaseController
 {
     /**
      * Renders the index view for the module
@@ -60,13 +60,13 @@ class VideoFavoriteController extends Controller
                         $data[] = $video->toMap();
                     }
                     Yii::$app->response->statusCode = 200;
-                    return json_encode([
+                    return [
                         'status' => true,
                         'data' => [
                             'videoPosts' => $data
                         ],
                         'messages' => count($videos) > 0 ? ['Success'] : ['No Videos found!']
-                    ]);
+                    ];
                 }
 
         } else {
@@ -75,29 +75,29 @@ class VideoFavoriteController extends Controller
                 $data[] = $video->toMap();
             }
             Yii::$app->response->statusCode = 200;
-            return json_encode([
+            return [
                 'status' => true,
                 'data' => [
                     'videoPosts' => $data
                 ],
                 'messages' => count($videos) > 0 ? ['Success'] : ['No Videos found!']
-            ]);
+            ];
         }
 
         } catch (Exception $e){
         Yii::$app->response->statusCode = 500;
-        return json_encode([
+        return [
             'status' => false,
             'data' => null,
             'messages' => ['Something went wrong!']
-        ]);
+        ];
     }
         Yii::$app->response->statusCode = 422;
-        return json_encode([
+        return [
             'status' => false,
             'data' => null,
             'messages' => ['No Videos found!']
-        ]);
+        ];
     }
 
     public function actionCreate()
@@ -120,75 +120,27 @@ class VideoFavoriteController extends Controller
                     return $this->actionDelete();
                 }
                 Yii::$app->response->statusCode = 201;
-                return json_encode([
+                return [
                     'status' => true,
                     'data' => $model,
                     'messages' => ['Success']
-                ]);
+                ];
             } else {
                 Yii::$app->response->statusCode = 422;
-                return json_encode([
+                return [
                     'status' => false,
                     'data' => null,
                     'messages' => $model->getErrorSummary(true)
-                ]);
+                ];
             }
 
         } catch (\Exception $e){
             Yii::$app->response->statusCode = 500;
-            return json_encode([
+            return [
                 'status' => false,
                 'data' => null,
                 'messages' => ['Something went wrong!']
-            ]);
-        }
-    }
-
-    public function actionUpdate()
-    {
-        $id = Yii::$app->request->get('id','');
-        $title = Yii::$app->request->get('title','');
-        $desc = Yii::$app->request->get('description','');
-
-        try {
-        $model = VideoPost::findOne($id);
-
-        $model->title = $title;
-        $model->description = $desc;
-
-        if($model) {
-            if ($model->validate()) {
-                $model->save();
-                Yii::$app->response->statusCode = 200;
-                return json_encode([
-                    'status' => true,
-                    'data' => $model,
-                    'messages' => ['Success']
-                ]);
-            } else {
-                Yii::$app->response->statusCode = 422;
-                return json_encode([
-                    'status' => false,
-                    'data' => null,
-                    'messages' => $model->getErrorSummary(true)
-                ]);
-            }
-        } else {
-            Yii::$app->response->statusCode = 404;
-            return json_encode([
-                'status' => false,
-                'data' => null,
-                'messages' => ['Post not found!']
-            ]);
-        }
-
-        } catch (\Exception $e){
-            Yii::$app->response->statusCode = 500;
-            return json_encode([
-                'status' => false,
-                'data' => null,
-                'messages' => ['Something went wrong!']
-            ]);
+            ];
         }
     }
 
@@ -216,10 +168,10 @@ class VideoFavoriteController extends Controller
             Yii::$app->response->statusCode = 422;
         }
 
-        return json_encode([
+        return [
             'status' => $status,
             'data' => null,
             'messages' => [$message]
-        ]);
+        ];
     }
 }

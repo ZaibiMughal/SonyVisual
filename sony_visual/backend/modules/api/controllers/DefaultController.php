@@ -7,7 +7,7 @@ use yii\web\Controller;
 /**
  * Default controller for the `api` module
  */
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
     /**
      * Renders the index view for the module

@@ -40,7 +40,9 @@ class UserBloc{
 
   Future<NetworkServiceResponse<User>> actionSignUp(SignUp signUp) async {
 
-    NetworkServiceResponse result = await RestClient.instance.request(url: API.signup, method: Config.HTTP_GET, params: signUp.toMap());
+    Map<String, dynamic> payload = await signUp.toMap();
+
+    NetworkServiceResponse result = await RestClient.instance.request(url: API.signup, method: Config.HTTP_POST, payload: payload, isMultipart: true);
 
     User user = User();
 
@@ -60,7 +62,7 @@ class UserBloc{
   Future<NetworkServiceResponse<void>> actionEdit(EditProfile editProfile) async {
 
     Map<String, dynamic> payload = await editProfile.mapToArray();
-    NetworkServiceResponse result = await RestClient.instance.request(url: API.updateUserProfile, method: Config.HTTP_GET, params: payload);
+    NetworkServiceResponse result = await RestClient.instance.request(url: API.updateUserProfile, method: Config.HTTP_POST, payload: payload, isMultipart: true);
 
     if (result.status != Status.Error) {
       AppCurrentState.instance.user!.fromJson(result.data);

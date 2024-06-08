@@ -286,7 +286,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
                 width: 45,
                 height: 45,
                 padding: EdgeInsets.all(8),
-                child: CircleAvatar(radius: 16, backgroundImage: NetworkImage("https://admin.sonyvisual.com/images/logo.png")),
+                child: CircleAvatar(radius: 16, backgroundImage: NetworkImage(widget.post.getUserImage()!)),
               ).onTap(() {
                 if (_controller.value.isPlaying) _controller.pause();
                 TTProfileScreen(userId: widget.post.userId,).launch(context);

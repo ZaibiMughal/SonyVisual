@@ -138,8 +138,8 @@ class TTAddPostScreenState extends State<TTAddPostScreen> {
                             String url = value ?? "";
                             if(url.isEmpty){
                               return "This field is required!";
-                            } else if(!Utils.regYoutubeUrlExp.hasMatch(url)){
-                              return "Short Video URL is invalid";
+                            } else if(!Utils.regShortYoutubeUrlExp.hasMatch(url) && !Utils.regYoutubeUrlExp.hasMatch(url)){
+                              return "Video URL is invalid";
                             }
                             return null;
                           },

@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -54,7 +56,8 @@ class Utils {
     return arr[arr.length - 1];
   }
 
-  static RegExp regYoutubeUrlExp = RegExp(r'^https?:\/\/(www\.)?youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(\?[\w=&-]+)?$');
+  static RegExp regShortYoutubeUrlExp = RegExp(r'^https?:\/\/(www\.)?youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(\?[\w=&-]+)?$');
+  static RegExp regYoutubeUrlExp = RegExp(r'^(https:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|channel\/)|youtu\.be\/)[a-zA-Z0-9_-]{11,}$');
 
 
   static Future<bool> requestStoragePermission() async {
@@ -181,6 +184,16 @@ class Utils {
       }
     }
     return false;
+  }
+
+  static Future<File?> pickImg() async {
+    File? file;
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if(image != null){
+      file = File(image.path);
+    }
+    return file;
   }
 
 }

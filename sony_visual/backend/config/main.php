@@ -20,6 +20,13 @@ return [
         ],
         'api' => [
             'class' => 'backend\modules\api\api',
+            'controllerNamespace' => 'backend\modules\api\controllers',
+            'components' => [
+                'request' => [
+                    'class' => 'yii\web\Request',
+                    'enableCsrfValidation' => false,
+                ],
+            ],
         ],
         'gridview' => [
             'class' => '\kartik\grid\Module',
@@ -74,10 +81,10 @@ return [
 //                ]],
 //
 //            ]),
-//            'rules' => $rules,
-            'rules' => [
-                'POST site/post-data' => 'site/index',
-            ],
+            'rules' => $rules,
+//            'rules' => [
+//                'POST site/post-data' => 'site/index',
+//            ],
         ],
         'assetManager' => [
             'appendTimestamp' => true,

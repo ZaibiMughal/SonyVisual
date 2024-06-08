@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:short_video/business_logic/services/network_service_response.dart';
 import 'package:short_video/config/colors_config.dart';
@@ -8,10 +13,12 @@ import 'package:short_video/models/signup.dart';
 import 'package:short_video/screens/TTOTPScreen.dart';
 import 'package:short_video/utils/TTColors.dart';
 import 'package:short_video/utils/TTImages.dart';
+import 'package:short_video/utils/utils.dart';
 
 import '../business_logic/bloc/user_bloc.dart';
 import '../config/main_config.dart';
 import '../config/toast_config.dart';
+import '../utils/TTWidgets.dart';
 import 'TTDashboardScreen.dart';
 
 class TTSignUpScreen extends StatefulWidget {
@@ -37,6 +44,8 @@ class TTSignUpScreenState extends State<TTSignUpScreen> {
   bool passwordVisible = false;
 
   UserBloc userBloc = UserBloc();
+  File? pickedImage;
+
 
   @override
   void initState() {
@@ -53,13 +62,14 @@ class TTSignUpScreenState extends State<TTSignUpScreen> {
     if (mounted) super.setState(fn);
   }
 
+
   Future<void> signUp() async {
     hideKeyboard(context);
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
       Loader().launch(context);
-      NetworkServiceResponse response =  await userBloc.actionSignUp(SignUp(firstName: firstNameController.text, lastName: lastNameController.text, email: emailController.text, password: passwordController.text));
+      NetworkServiceResponse response =  await userBloc.actionSignUp(SignUp(firstName: firstNameController.text, lastName: lastNameController.text, email: emailController.text, password: passwordController.text, image: pickedImage));
       Navigator.pop(context);
       if(response.status ==  Status.Error){
         ToastConfig.showToast(title: 'Error', message: response.message, context: context);
@@ -87,7 +97,15 @@ class TTSignUpScreenState extends State<TTSignUpScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: Image.asset(TT_ic_logo, height: 80).cornerRadiusWithClipRRect(16)),
+                      GestureDetector(
+                        onTap: () async {
+                          pickedImage = await Utils.pickImg();
+                          setState(() {});
+                        },
+                        child: Container(
+                            decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: commonCacheImageWidget(TT_ic_logo, file: pickedImage, height: 80).cornerRadiusWithClipRRect(16),
+                        ),
+                      ),
                       16.height,
                       Text("Sign Up", style: boldTextStyle(size: 28, color: Colors.white), textAlign: TextAlign.center),
                       // Image.asset(TT_ic_logo, height: context.height() * 0.2, fit: BoxFit.fitWidth, width: context.width() * 0.2),

@@ -2,13 +2,14 @@
 
 namespace common\models;
 
-use http\Url;
+use yii\helpers\Url;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
 use yii\web\IdentityInterface;
+use yii\web\UploadedFile;
 
 /**
  * User model
@@ -23,6 +24,7 @@ use yii\web\IdentityInterface;
  * @property string $cell_phone
  * @property string $auth_key
  * @property string $full_name
+ * @property string $thumbnail
  * @property integer $status
  * @property integer $created_at
  * @property integer $user_type
@@ -49,6 +51,7 @@ class User extends ActiveRecord implements IdentityInterface
     public static $customer = 'Customer';
 
 
+    public ?UploadedFile $imageFile;
     /**
      * {@inheritdoc}
      */
@@ -81,12 +84,14 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             [['user_type'], 'exist', 'skipOnError' => true, 'targetClass' => UserType::class, 'targetAttribute' => ['user_type' => 'id']],
             ['user_type', 'default', 'value' => UserType::getCustomerId()],
-            [['cell_phone', 'password_hash', 'password_reset_token', 'email', 'verification_token'], 'string', 'max' => 255],
+            [['cell_phone', 'password_hash', 'password_reset_token', 'email', 'verification_token','thumbnail'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['email'], 'trim'],
              [['email'], 'unique'],
 //             [['cell_phone'], 'unique'],
             [['password_reset_token'], 'unique'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif', 'maxSize' => 2 * 1024 * 1024, 'tooBig' => 'The file size should not exceed 2MB.'],
+
 //            [['cell_phone'], 'unique'],
         ];
     }
@@ -513,6 +518,7 @@ class User extends ActiveRecord implements IdentityInterface
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
+            'thumbnail' => $this->getThumbnail()
         ];
     }
 
@@ -562,5 +568,30 @@ class User extends ActiveRecord implements IdentityInterface
         $count = $query->count();
 
         return isset($count) ? $count : 0;
+    }
+
+    public static function getThumbnailPath(): string
+    {
+        return '/uploads/users/';
+    }
+
+    public function getThumbnail(): string
+    {
+        return empty($this->thumbnail) ? "https://admin.sonyvisual.com/images/logo.png" : Url::to(self::getThumbnailPath().$this->thumbnail, true);
+    }
+
+    public function uploadThumbnail(): bool
+    {
+        if(!empty($this->imageFile)) {
+            $current_time = time();
+            $fileName = preg_replace('/[^a-zA-Z0-9]+/',"_",$this->imageFile->baseName) . "_$current_time." . $this->imageFile->extension;
+            $filePath = 'uploads/users/' . $fileName;
+            if ($this->imageFile->saveAs($filePath)) {
+                $this->thumbnail = $fileName;
+                return true;
+            }
+        }
+        return false;
+
     }
 }

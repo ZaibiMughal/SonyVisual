@@ -14,8 +14,10 @@ import '../business_logic/services/network_service_response.dart';
 import '../config/colors_config.dart';
 import '../config/main_config.dart';
 import '../config/toast_config.dart';
+import '../main.dart';
 import '../models/post.dart';
 import '../models/screen_error.dart';
+import '../storage/shared_storage.dart';
 import '../utils/utils.dart';
 import 'TTErrorSection.dart';
 import 'TTFanListScreen.dart';
@@ -29,7 +31,7 @@ class TTProfileScreen extends StatefulWidget {
   TTProfileScreenState createState() => TTProfileScreenState();
 }
 
-class TTProfileScreenState extends State<TTProfileScreen> {
+class TTProfileScreenState extends State<TTProfileScreen> with RouteAware{
   var isSelected = false;
   PostBloc bloc = PostBloc();
   NetworkServiceResponse? response;
@@ -43,6 +45,33 @@ class TTProfileScreenState extends State<TTProfileScreen> {
     Utils.showInterstitialAd();
 
     init();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final ModalRoute? modalRoute = ModalRoute.of(context);
+    if (modalRoute is PageRoute) {
+      // Subscribe to the RouteObserver only if the modalRoute is a PageRoute
+      routeObserver.subscribe(this, modalRoute);
+    }
+  }
+
+  @override
+  void dispose() {
+    // Unsubscribe from the RouteObserver
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    // Perform setState or any other necessary updates
+    setState(() {
+      // Update your state here
+    });
+    super.didPopNext();
+
   }
 
   @override
@@ -128,9 +157,11 @@ class TTProfileScreenState extends State<TTProfileScreen> {
                     child: Column(
                       children: <Widget>[
                         8.height,
-                        Container(decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: Image.asset(TT_ic_logo, height: 80).cornerRadiusWithClipRRect(16)),
+                        Container(
+                          width: 80,
+                            decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: commonCacheImageWidget(AppCurrentState.instance.user!.thumbnail, height: 80).cornerRadiusWithClipRRect(16).center()),
                         10.height,
-                        Text(posts.isNotEmpty ? posts[0].username! : "SonyVisual", style: boldTextStyle(size: 18, color: white)),
+                        Text(widget.userId != null ? posts.isNotEmpty ? posts[0].username! : "SonyVisual" : AppCurrentState.instance.getUser() != null ?AppCurrentState.instance.getUser()!.getFullName() : "SonyVisual", style: boldTextStyle(size: 18, color: white)),
                       ],
                     ),
                   ),

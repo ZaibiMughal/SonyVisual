@@ -73,7 +73,7 @@ class VideoFavorite extends \yii\db\ActiveRecord
     }
 
     public function getVideoModel(){
-        return VideoPost::findOne(['video_id' => $this->video_id]);
+        return VideoPost::findOne(['id' => $this->video_id]);
     }
 
     public function toMap(){

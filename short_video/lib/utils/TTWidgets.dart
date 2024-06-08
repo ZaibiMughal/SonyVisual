@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -213,8 +215,13 @@ Function(BuildContext, String) placeholderWidgetFn() => (_, s) => placeholderWid
 
 Widget placeholderWidget() => Image.asset('images/sonyVisual/placeholder.png', fit: BoxFit.cover);
 
-Widget commonCacheImageWidget(String? url, {double? width, BoxFit? fit, double? height}) {
-  if (url!.validate().startsWith('http')) {
+Widget commonCacheImageWidget(String? url, {double? width, BoxFit? fit, double? height, File? file}) {
+
+  if(file != null){
+    return Image.file(file, height: height, width: width, fit: fit);
+  }
+
+  else if (url!.validate().startsWith('http')) {
     if (isMobile) {
       return CachedNetworkImage(
         placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,

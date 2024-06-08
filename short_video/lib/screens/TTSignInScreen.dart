@@ -17,6 +17,7 @@ import '../business_logic/services/network_service_response.dart';
 import '../config/main_config.dart';
 import '../models/login.dart';
 import '../storage/shared_storage.dart';
+import '../utils/TTWidgets.dart';
 
 class TTSignINScreen extends StatefulWidget {
   static String tag = '/TTSignINScreen';
@@ -81,6 +82,7 @@ class TTSignINScreenState extends State<TTSignINScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: TTBackgroundBlack,
+      appBar: ttAppBar(context, "", showBack: widget.goBack!) as PreferredSizeWidget?,
       body: SafeArea(
         child: Responsive(
           mobile: Container(

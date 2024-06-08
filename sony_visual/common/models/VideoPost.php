@@ -20,6 +20,7 @@ use Yii;
  */
 class VideoPost extends \yii\db\ActiveRecord
 {
+    public User $user;
     /**
      * {@inheritdoc}
      */
@@ -79,26 +80,44 @@ class VideoPost extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getUserRelation()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
-    public function getUserName()
+    public function getUser(): ?User
     {
-        $user = $this->getUser()->one();
+        if(!empty($this->user))
+            return $this->user;
+        return $this->user = User::findOne(['id' => $this->user_id]);
+    }
+    public function getUserName(): string
+    {
+        $user = $this->getUser();
         return is_null($user) ? "Unknown" : $user->getName();
     }
 
+
+    public function getUserThumbnail(): string
+    {
+        $user = $this->getUser();
+        return is_null($user) ? "https://admin.sonyvisual.com/images/logo.png" : $user->getThumbnail();
+    }
+
     public function getVideoId(){
-        $arr = explode("?", $this->url);
-        $arr = explode("/", $arr[0]);
-        return $arr[count($arr) - 1];
+
+        $pattern = '/^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/';
+
+        // Perform the regex match
+        if (preg_match($pattern, $this->url, $matches)) {
+            return $matches[1];
+        }
+        return null;
     }
 
     public function getThumbnail(){
         $id = $this->getVideoId();
-        return "https://img.youtube.com/vi/$id/0.jpg";
+        return empty($id) ? "https://admin.sonyvisual.com/images/logo.png" : "https://img.youtube.com/vi/$id/0.jpg";
     }
 
     public function toMap($currentUserId = 0){
@@ -109,12 +128,14 @@ class VideoPost extends \yii\db\ActiveRecord
             'title' => $this->description,
             'description' => $this->description,
             'user_id' => $this->user_id,
+            'user_thumbnail' => $this->getUserThumbnail(),
             'username' => $this->getUserName(),
             'privacy' => $this->privacy,
             'url' => $this->url,
             'thumbnail' => $this->getThumbnail(),
             'category' => $this->category,
-            'total_likes' => $totalLikes
+            'total_likes' => $totalLikes,
+
         ];
 
         if($currentUserId){

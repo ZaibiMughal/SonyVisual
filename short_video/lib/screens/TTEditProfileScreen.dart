@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:short_video/business_logic/app_state.dart';
@@ -11,6 +13,7 @@ import 'package:short_video/utils/TTWidgets.dart';
 import '../business_logic/bloc/user_bloc.dart';
 import '../business_logic/services/network_service_response.dart';
 import '../config/toast_config.dart';
+import '../utils/utils.dart';
 
 class TTEditProfileScreen extends StatefulWidget {
   static String tag = '/TTEditProfileScreen';
@@ -30,6 +33,7 @@ class TTEditProfileScreenState extends State<TTEditProfileScreen> {
   FocusNode lastNameFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
   UserBloc userBloc = UserBloc();
+  File? pickedImage;
 
   @override
   void initState() {
@@ -54,7 +58,7 @@ class TTEditProfileScreenState extends State<TTEditProfileScreen> {
       formKey.currentState!.save();
 
       Loader().launch(context);
-      NetworkServiceResponse response =  await userBloc.actionEdit(EditProfile(firstName: firstNameController.text, lastName: lastNameController.text, email: emailController.text, userId: AppCurrentState.instance.getUserId()));
+      NetworkServiceResponse response =  await userBloc.actionEdit(EditProfile(firstName: firstNameController.text, lastName: lastNameController.text, email: emailController.text, userId: AppCurrentState.instance.getUserId(), image: pickedImage));
       Navigator.pop(context);
       if(response.status ==  Status.Error){
         ToastConfig.showToast(title: 'Error', message: response.message, context: context);
@@ -66,7 +70,7 @@ class TTEditProfileScreenState extends State<TTEditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+;    return Scaffold(
       appBar: ttAppBar(context, "Profile", actions: [
       ]) as PreferredSizeWidget?,
       backgroundColor: TTBackgroundBlack,
@@ -78,13 +82,20 @@ class TTEditProfileScreenState extends State<TTEditProfileScreen> {
             child: Form(
               key: formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   16.height,
-                  Container(decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: Image.asset(TT_ic_logo, height: 80).cornerRadiusWithClipRRect(16)).center(),
-                  // CircleAvatar(backgroundImage: AssetImage(TT_ic_guest2), radius: 45).center(),
-                  // 10.height,
-                  // Text('Add Photo', style: boldTextStyle(color: ColorsConfig.p_color, size: 18)).center(),
+                  GestureDetector(
+                    onTap: () async {
+                      pickedImage = await Utils.pickImg();
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: 80,
+                      decoration: boxDecorationWithRoundedCorners(
+                          borderRadius: radius(16)), child: commonCacheImageWidget(AppCurrentState.instance.user!.thumbnail, file: pickedImage, height: 80).cornerRadiusWithClipRRect(16).center(),
+                    ),
+                  ),
                   16.height,
                   AppTextField(
                     controller: firstNameController,

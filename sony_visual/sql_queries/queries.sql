@@ -7,6 +7,8 @@ alter table sac_user add column updated_by int not null default 1;
 alter table sac_user ADD CONSTRAINT fk_user_type FOREIGN KEY (user_type) REFERENCES user_type (id);
 alter table sac_user ADD CONSTRAINT fk_updated_by FOREIGN KEY (updated_by) REFERENCES sac_user (id);
 alter table sac_user drop column username;
+alter table sac_user add column thumbnail varchar(255);
+
 -- alter table sac_user drop column created_at;
 -- alter table sac_user drop column updated_at;
 -- alter table sac_user add column created TIMESTAMP default now();

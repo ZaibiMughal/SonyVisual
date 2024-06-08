@@ -7,14 +7,14 @@ class User extends Parent {
   String? lastName;
   int? type;
   String? email;
-  String? url;
+  String? thumbnail;
 
   User({
     this.id = 0,
     this.firstName,
     this.lastName,
     this.email,
-    this.url,
+    this.thumbnail,
     this.type
   });
 
@@ -38,15 +38,19 @@ class User extends Parent {
     return lastName;
   }
 
+  getFullName(){
+    return "${firstName!} ${lastName!}";
+  }
+
   getEmail(){
     return email ?? lastName;
   }
 
   getPhotoUrl(){
-    return url ?? 'https://admin.sonyvisual.com/images/logo.png';
+    return thumbnail ?? 'https://admin.sonyvisual.com/images/logo.png';
   }
 
-  
+
   // Convert a User into a Map. The keys must correspond to the names of the
   // columns in the database.
   @override
@@ -56,7 +60,7 @@ class User extends Parent {
       'first_name' : firstName,
       'last_name' : lastName,
       'email' : email,
-      'url' : url,
+      'thumbnail' : thumbnail,
       'type' : type
     };
   }
@@ -67,7 +71,7 @@ class User extends Parent {
     lastName = map['last_name'];
     email = map['email'];
     type = map['type'];
-    url = 'https://admin.sonyvisual.com/images/logo.png';
+    thumbnail = map['thumbnail'] ?? 'https://admin.sonyvisual.com/images/logo.png';
   }
 
 
@@ -77,7 +81,7 @@ class User extends Parent {
     firstName = map['first_name'];
     lastName = map['last_name'];
     email = map['email'];
-    type = map['type'];
-    url = 'https://admin.sonyvisual.com/images/logo.png';
+    type = map['type'] ?? 0;
+    thumbnail = map['thumbnail'] ?? 'https://admin.sonyvisual.com/images/logo.png';
   }
 }
