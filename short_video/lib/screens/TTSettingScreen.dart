@@ -146,7 +146,7 @@ class TTSettingScreenState extends State<TTSettingScreen> {
                   bool? res = await showConfirmDialog(context, 'Do you want to logout?', buttonColor: Colors.black);
                   if (res ?? false) {
                     AppCurrentState.instance.logout();
-                    TTSignINScreen().launch(context, isNewTask: true);
+                    TTDashboardScreen().launch(context, isNewTask: true);
                   }
                 }),
                 mOption(Icons.delete, "Delete", color: redColor).onTap(() async {
@@ -154,7 +154,7 @@ class TTSettingScreenState extends State<TTSettingScreen> {
                   if (res ?? false) {
                     bool result = await delete();
                     if(result) {
-                      TTSignINScreen().launch(context, isNewTask: true);
+                      TTDashboardScreen().launch(context, isNewTask: true);
                     }
                   }
                 }),

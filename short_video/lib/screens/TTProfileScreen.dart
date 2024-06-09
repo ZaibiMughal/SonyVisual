@@ -98,6 +98,18 @@ class TTProfileScreenState extends State<TTProfileScreen> with RouteAware{
     });
   }
 
+  getThumbnail(){
+    if(widget.userId != null){
+      if(posts.isNotEmpty) {
+        return posts[0].getUserImage();
+      }
+
+      return "https://admin.sonyvisual.com/images/logo.png";
+    }
+
+    return AppCurrentState.instance.user!.getPhotoUrl();
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget mOption(var value, var label) {
@@ -159,7 +171,7 @@ class TTProfileScreenState extends State<TTProfileScreen> with RouteAware{
                         8.height,
                         Container(
                           width: 80,
-                            decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: commonCacheImageWidget(AppCurrentState.instance.user!.thumbnail, height: 80).cornerRadiusWithClipRRect(16).center()),
+                            decoration: boxDecorationWithRoundedCorners(borderRadius: radius(16)), child: commonCacheImageWidget(getThumbnail(), height: 80).cornerRadiusWithClipRRect(16).center()),
                         10.height,
                         Text(widget.userId != null ? posts.isNotEmpty ? posts[0].username! : "SonyVisual" : AppCurrentState.instance.getUser() != null ?AppCurrentState.instance.getUser()!.getFullName() : "SonyVisual", style: boldTextStyle(size: 18, color: white)),
                       ],

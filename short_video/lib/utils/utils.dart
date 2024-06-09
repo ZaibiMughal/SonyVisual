@@ -56,6 +56,24 @@ class Utils {
     return arr[arr.length - 1];
   }
 
+  static String? getYouTubeVideoId(String url) {
+    // Define the regex pattern to capture the video ID, including shorts URLs with query parameters
+    RegExp regExp = RegExp(
+        r'^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})');
+
+    // Perform the regex match
+    Match? match = regExp.firstMatch(url);
+
+    // If a match is found, return the video ID (group 1)
+    if (match != null) {
+      return match.group(1);
+    }
+
+    // Otherwise, return null
+    return "null";
+  }
+
+
   static RegExp regShortYoutubeUrlExp = RegExp(r'^https?:\/\/(www\.)?youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}(\?[\w=&-]+)?$');
   static RegExp regYoutubeUrlExp = RegExp(r'^(https:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|channel\/)|youtu\.be\/)[a-zA-Z0-9_-]{11,}$');
 

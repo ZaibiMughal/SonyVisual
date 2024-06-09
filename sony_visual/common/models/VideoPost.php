@@ -40,6 +40,7 @@ class VideoPost extends \yii\db\ActiveRecord
             [['created'], 'safe'],
             [['title'], 'string', 'max' => 255],
             [['description', 'url', 'category'], 'string', 'max' => 1000],
+            ['url', 'match', 'pattern' => '/^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', 'message' => 'The URL must be a valid YouTube URL.'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             ['url','validatePost'],
         ];

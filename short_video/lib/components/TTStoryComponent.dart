@@ -64,7 +64,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
     super.initState();
 
     _controller = YoutubePlayerController(
-      initialVideoId: Utils.getIdFromUrl(widget.post.url!),
+      initialVideoId: Utils.getYouTubeVideoId(widget.post.url!)!,
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -122,6 +122,7 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
 
   @override
   Widget build(BuildContext context) {
+    print(widget.post.url);
     timerProvider = Provider.of<TimerProvider>(context, listen: false);
     adProvider = Provider.of<AdProvider>(context, listen: false);
     Widget _bottomContent() {
@@ -192,38 +193,39 @@ class TTStoryComponentState extends State<TTStoryComponent> with SingleTickerPro
             //   ),
             // ),
             16.height,
-            Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                IconButton(
-                  padding: EdgeInsets.zero,
-                    icon: Icon(Icons.favorite_outline, size: 28, color: widget.post.isFavorite! == 1 ? redColor : white),
-                    onPressed: () async {
-                      if(AppCurrentState.instance.getIsLoggedIn() == false){
-                        return TTSignINScreen(goBack: true,).launch(context);
-                      }
-
-                      int favValue = widget.post.isFavorite! == 0 ? 1 : 0;
-                      NetworkServiceResponse response = await postBloc.actionUpdateFavoriteStatus(AppCurrentState.instance.getUserId(), widget.post.id!, favValue);
-                      if(response.status == Status.Error){
-                        toast("Can't like this video, please try again later");
-                      } else {
-                        widget.post.isFavorite = favValue;
-                        if(favValue == 1){
-                          widget.post.totalLikes = widget.post.totalLikes! + 1;
-                        } else {
-                          widget.post.totalLikes = widget.post.totalLikes! - 1;
+            Container(
+              height: 60,
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                      icon: Icon(widget.post.isFavorite! == 1 ? Icons.favorite : Icons.favorite_outline, size: 28, color: white),
+                      onPressed: () async {
+                        if(AppCurrentState.instance.getIsLoggedIn() == false){
+                          return TTSignINScreen(goBack: true,).launch(context);
                         }
-                        setState(() { });
-                      }
-                    }),
-                Positioned(
-                  bottom: -25,
-                    child: SizedBox(
-                      height: 40,
-                        child: Text(widget.post.totalLikes!.toString(), style: TextStyle(color: white),)),
-                )
-              ],
+
+                        int favValue = widget.post.isFavorite! == 0 ? 1 : 0;
+                        NetworkServiceResponse response = await postBloc.actionUpdateFavoriteStatus(AppCurrentState.instance.getUserId(), widget.post.id!, favValue);
+                        if(response.status == Status.Error){
+                          toast("Can't like this video, please try again later");
+                        } else {
+                          widget.post.isFavorite = favValue;
+                          if(favValue == 1){
+                            widget.post.totalLikes = widget.post.totalLikes! + 1;
+                          } else {
+                            widget.post.totalLikes = widget.post.totalLikes! - 1;
+                          }
+                          setState(() { });
+                        }
+                      }),
+                  Positioned(
+                    bottom: 0,
+                      child: Text(widget.post.totalLikes!.toString(), style: TextStyle(color: white),),
+                  )
+                ],
+              ),
             ),
             SizedBox(height: 10,),
             IconButton(
